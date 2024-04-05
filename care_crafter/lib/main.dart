@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'widgets/custom_bottom_navigation_bar.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,48 +24,40 @@ class PetCareCrafterPage extends StatelessWidget {
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/fattoria.jpg'),
+              image: AssetImage('assets/Immagini_CareCrafter/fattoria.png'),
               fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.dstATop), // Trasparenza al 50%
+              colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.25),
+                  BlendMode.dstATop),
             ),
           ),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                SizedBox(height: 100), // Spazio aggiunto sopra i cerchi
+                SizedBox(height: 100),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _buildCircularButton(context, 'fuffy', 'assets/images/cANE1.png'),
-                    SizedBox(width: 20), // Spazio tra i cerchi
-                    _buildCircularButton(context, 'mowgly', 'assets/images/CareCrafter.jpeg'),
+                    _buildCircularButton(context, 'Fuffy',
+                        'assets/Immagini_CareCrafter/Fuffy.png'),
+                    SizedBox(width: 30),
+                    _buildCircularButton(context, 'Mowgly',
+                        'assets/Immagini_CareCrafter/Mowgly.png'),
                   ],
                 ),
-                SizedBox(height: 50), // Spazio tra i cerchi e il pulsante "Aggiungi utente"
+                SizedBox(height: 50),
                 _buildAddUserButton(context),
               ],
             ),
           ),
         ),
-        bottomNavigationBar: BottomAppBar(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.account_circle),
-                onPressed: () {
-                  // Navigate to account page
-                },
-              ),
-            ],
-          ),
-        ),
+        bottomNavigationBar: CustomBottomNavigationBar(),
       ),
     );
   }
 
-  Widget _buildCircularButton(BuildContext context, String username, String imagePath) {
+  Widget _buildCircularButton(
+      BuildContext context, String username, String imagePath) {
     return GestureDetector(
       onTap: () {
         // Handle button tap, for example, navigate to user details page
@@ -75,6 +68,7 @@ class PetCareCrafterPage extends StatelessWidget {
             width: 150,
             height: 150,
             decoration: BoxDecoration(
+              border: Border.all(color: Colors.black),
               shape: BoxShape.circle,
               image: DecorationImage(
                 image: AssetImage(imagePath),
@@ -82,10 +76,13 @@ class PetCareCrafterPage extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 10), // Spazio tra il cerchio e la scritta
+          SizedBox(height: 10),
           Text(
             username,
-            style: TextStyle(color: Colors.black, decoration: TextDecoration.underline, fontSize: 18), // Aumento della dimensione del carattere
+            style: TextStyle(
+                color: Colors.black,
+                decoration: TextDecoration.underline,
+                fontSize: 25),
           ),
         ],
       ),
@@ -102,11 +99,12 @@ class PetCareCrafterPage extends StatelessWidget {
         height: 150,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.grey,
+          border: Border.all(color: Colors.black),
+          color: Colors.transparent,
         ),
         child: Icon(
           Icons.add,
-          color: Colors.white,
+          color: const Color.fromARGB(255, 0, 0, 0),
           size: 50,
         ),
       ),
