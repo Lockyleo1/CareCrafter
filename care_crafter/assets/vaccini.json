@@ -1,0 +1,28 @@
+[
+    {
+      "date": "MAG 12",
+      "title": "Vaccino antinfluenzale",
+      "subtitle": "Centro Vaccinazioni - Milano - Via Garibaldi 123"
+    },
+    {
+      "date": "APR 15",
+      "title": "Vaccino antitetanico",
+      "subtitle": "Farmacia Comunale - Roma - Piazza del Popolo 1"
+    },
+    {
+      "date": "MAR 20",
+      "title": "Vaccino contro il morbillo",
+      "subtitle": "Ospedale Pediatrico - Napoli - Via dei Bambini 45"
+    },
+    {
+      "date": "FEB 05",
+      "title": "Vaccino contro l'epatite B",
+      "subtitle": "Ambulatorio Vaccinazioni - Torino - Corso Cavour 78"
+    },
+    {
+      "date": "GEN 10",
+      "title": "Vaccino contro la varicella",
+      "subtitle": "Clinica Vaccinazioni - Firenze - Via dei Medici 10"
+    }
+  ]
+  
