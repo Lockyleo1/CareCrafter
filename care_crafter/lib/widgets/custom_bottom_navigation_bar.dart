@@ -11,9 +11,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.account_circle),
             onPressed: () {
-               Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AccountScreen()),
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AccountScreen()),
             );
             },
           ),
