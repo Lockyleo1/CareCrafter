@@ -1,43 +1,45 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'widgets/custom_bottom_navigation_bar.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(MyApp());
+  runApp(PetVaccini());
 }
 
-class MyApp extends StatelessWidget {
+class PetVaccini extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Health Records App',
+      title: 'PetVaccini',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HealthRecordPage(),
+      home: VacineRecordPage(),
     );
   }
 }
 
-class HealthRecordPage extends StatelessWidget {
+class VacineRecordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Fascicolo Sanitario'),
-        actions: <Widget>[
+        leading:
           IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
               // Navigate back to the homepage
             },
           ),
-        ],
+        title: Text('Pet Vaccini'),
+        centerTitle: true,
       ),
       body: FutureBuilder(
         future:
-            DefaultAssetBundle.of(context).loadString('assets/referti.json'),
+            DefaultAssetBundle.of(context).loadString('assets/PetVaccini.json'),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
@@ -51,44 +53,68 @@ class HealthRecordPage extends StatelessWidget {
           return ListView.builder(
             itemCount: healthRecords == null ? 0 : healthRecords.length,
             itemBuilder: (context, index) {
-              return ListTile(
-                leading: Container(
-                  width: 70,
-                  height: 70,
-                  decoration: BoxDecoration(
-                    color: Color(0xFF58E4FF),
-                    border: Border.all(color: Color(0xFF1C448E)),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        healthRecords[index]['date'],
-                        style: TextStyle(color: Colors.black),
+              return Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: Colors.black, width: 1), // Aggiunge una linea nera in basso
                       ),
-                    ],
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 70,
+                          height: 70,
+                          decoration: BoxDecoration(
+                            color: Color.fromRGBO(174, 213, 129,1),
+                            border: Border.all(color: Color(0xff2C5D39)),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                healthRecords[index]['date'],
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              SizedBox(height: 4), // Spazio tra la data e l'anno
+                              Text(
+                                '2023',
+                                style: TextStyle(color: Colors.black, fontSize: 12), // Stile per l'anno
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 8), // Spazio tra la data e l'icona
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                healthRecords[index]['title'],
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Text(healthRecords[index]['subtitle']),
+                            ],
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.visibility), // Icona dell'occhio
+                          onPressed: () {
+                            // Azione quando si preme l'occhio
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                title: Text(healthRecords[index]['title']),
-                subtitle: Text(healthRecords[index]['subtitle']),
+                ],
               );
             },
           );
         },
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.account_circle),
-              onPressed: () {
-                // Navigate to user account page
-              },
-            ),
-          ],
-        ),
-      ),
+     bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }
