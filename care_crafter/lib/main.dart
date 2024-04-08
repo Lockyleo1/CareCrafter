@@ -1,223 +1,204 @@
 import 'package:flutter/material.dart';
+import 'widgets/custom_bottom_navigation_bar.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const AccountScreen());
+  runApp(PetCareCrafterPage());
 }
 
-class AccountScreen extends StatelessWidget {
-  const AccountScreen({super.key});
-
+class PetCareCrafterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          title: Text('ACCOUNT'),
-          actions: <Widget>[
-            Container(
-              margin: EdgeInsets.only(right: 16.0),
-              child: CircleAvatar(
-                backgroundColor: Colors.grey,
-                child: Text(
-                  'GR',
-                  style: TextStyle(color: Colors.white),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(60),
+          child: AppBar(
+            toolbarHeight: 60,
+            leading: Padding(
+              padding: EdgeInsets.all(4.0),
+              child: Container(
+                width: 40,
+                height: 40,
+                // Aggiungi padding al logo blu
+                padding: EdgeInsets.all(3.0),
+                child: Image.asset(
+                  "assets/Immagini_CareCrafter/LogoBlu.png",
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
-          ],
-          backgroundColor: Colors.white,
-          elevation: 0,
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              _buildHeader(),
-              _buildInfo(),
-              _buildContact(),
+            actions: [
+              Padding(
+                padding: EdgeInsets.all(0),
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  child: Image.asset(
+                    "assets/Immagini_CareCrafter/logoCareCrafterR.png",
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
             ],
+          ),
+        ),
+        body: _buildBody(),
+        bottomNavigationBar: CustomBottomNavigationBar(),
+      ),
+    );
+  }
+
+  Widget _buildBody() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              _buildSquareButton('Fascicolo Sanitario',
+                  "assets/Immagini_CareCrafter/FascicoloElettronico.png"),
+              _buildSquareButton('Chatta con uno specialista',
+                  "assets/Immagini_CareCrafter/ChattaConSpecialista.png"),
+            ],
+          ),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              _buildSquareButton('Prendi appuntamento',
+                  "assets/Immagini_CareCrafter/Calendar.png"),
+              _buildSquareButton('Pet Fascicolo',
+                  "assets/Immagini_CareCrafter/Veterinario.png"),
+            ],
+          ),
+          SizedBox(height: 20),
+          _buildRoundedButton('Vaccini'),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSquareButton(String text, String iconData) {
+    return Container(
+      width: 150,
+      height: 150,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Color(0xFF58E4FF),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            side: BorderSide(color: Color(0xFF1C448E)),
+          ),
+        ),
+        onPressed: () {
+          print('Button clicked: $text');
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Image.asset(
+                iconData,
+                width: 50,
+                height: 50,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              text,
+              style: TextStyle(color: Colors.black),
+            ),
           ),
         ),
         bottomNavigationBar: BottomAppBar(
-          color: Colors.transparent,
-          elevation: 0,
-          child: Container( 
-            height: 60.0,
-            color: Colors.grey[200],
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[],
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.account_circle),
+                onPressed: () {
+                  // Navigate to account page
+                },
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget _buildHeader() {
-    return Container(
-      padding: EdgeInsets.all(20.0),
-      child: Row(
-        children: <Widget>[
-          CircleAvatar(
-            radius: 70.0,
-            backgroundImage: AssetImage('assets/images/CareCrafter.jpeg'),
+  Widget _buildCircularButton(BuildContext context, String username, String imagePath) {
+    return GestureDetector(
+      onTap: () {
+        // Handle button tap, for example, navigate to user details page
+      },
+      child: Column(
+        children: [
+          Container(
+            width: 150,
+            height: 150,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                image: AssetImage(imagePath),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
-          SizedBox(width: 40.0),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Center(
-                child: Text(
-                  'GIANLUCA',
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Center(
-                child: Text(
-                  'ROSSI',
-                  style: TextStyle(
-                    fontSize: 20.0,
-                  ),
-                ),
-              ),
-            ],
+          SizedBox(height: 10), // Spazio tra il cerchio e la scritta
+          Text(
+            username,
+            style: TextStyle(color: Colors.black, decoration: TextDecoration.underline, fontSize: 18), // Aumento della dimensione del carattere
           ),
         ],
       ),
     );
   }
 
-  Widget _buildInfo() {
-    return Container(
-      padding: EdgeInsets.all(16.0),
-      child: Column(
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              Text(
-                'AUSL ASSISTENZA',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.blue,
-                ),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                'AUSL Romagna',
-                style: TextStyle(
-                  fontSize: 20.0,
-                ),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                'ESENZIONI',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.blue,
-                ),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                'Nessuna',
-                style: TextStyle(
-                  fontSize: 20.0,
-                ),
-              ),
-            ],
-          ),
-        ],
+  Widget _buildAddUserButton(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        // Handle add user button tap, for example, navigate to add user page
+      },
+      child: Container(
+        width: 150,
+        height: 150,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.grey,
+        ),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 50,
+        ),
       ),
     );
   }
 
-  Widget _buildContact() {
+  Widget _buildRoundedButton(String text) {
     return Container(
-      padding: EdgeInsets.all(16.0),
-      child: Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Text(
-                'CONTATTI',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
+      width: 200,
+      height: 50,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Color(0xFF58E4FF),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+            side: BorderSide(color: Color(0xFF1C448E)),
           ),
-          SizedBox(height: 8.0),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Icon(Icons.phone),
-                  SizedBox(width: 8.0),
-                  Text(
-                    'TELEFONO',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 4.0),
-              Row(
-                children: <Widget>[
-                  SizedBox(width: 36.0),
-                  Text(
-                    '+393421083844',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    ),
-                  ),
-                ],
-              ),
-              Divider(color: Colors.black),
-              SizedBox(height: 8.0),
-              Row(
-                children: <Widget>[
-                  Icon(Icons.email),
-                  SizedBox(width: 8.0),
-                  Text(
-                    'E-MAIL',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 4.0),
-              Row(
-                children: <Widget>[
-                  SizedBox(width: 36.0),
-                  Text(
-                    'gianrossi@virgilio.it',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    ),
-                  ),
-                ],
-              ),
-              Divider(color: Colors.black),
-            ],
-          ),
-        ],
+        ),
+        onPressed: () {
+          print('Button clicked: $text');
+        },
+        child: Text(
+          text,
+          style: TextStyle(color: Colors.black),
+        ),
       ),
     );
   }

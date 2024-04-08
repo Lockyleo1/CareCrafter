@@ -1,0 +1,78 @@
+[
+    {
+      "date": "LUG 18",
+      "title": "Referto di radiografia",
+      "subtitle": "Ospedale San Raffaele - Milano - Via Olgettina 60"
+    },
+    {
+      "date": "LUG 05",
+      "title": "Ricetta medica",
+      "subtitle": "Farmacia del Corso - Firenze - Via del Corso 123"
+    },
+    {
+      "date": "GIU 22",
+      "title": "Esame ecografico",
+      "subtitle": "Centro diagnostico XYZ - Roma - Viale Trastevere 45"
+    },
+    {
+      "date": "GIU 07",
+      "title": "Visita oculistica",
+      "subtitle": "Studio Oculistico Rossi - Torino - Corso Vittorio Emanuele 80"
+    },
+    {
+      "date": "MAG 15",
+      "title": "Analisi del sangue",
+      "subtitle": "Laboratorio Analisi Mediche - Napoli - Via Roma 456"
+    },
+    {
+      "date": "MAG 08",
+      "title": "Controllo dermatologico",
+      "subtitle": "Clinica Dermatologica ABC - Bologna - Piazza Maggiore 1"
+    },
+    {
+      "date": "APR 20",
+      "title": "Elettrocardiogramma",
+      "subtitle": "Centro Cardiologico XYZ - Palermo - Via Libertà 789"
+    },
+    {
+      "date": "APR 02",
+      "title": "Visita pediatrica",
+      "subtitle": "Ambulatorio Pediatrico - Genova - Piazza De Ferrari 10"
+    },
+    {
+      "date": "MAR 12",
+      "title": "Referto di TAC",
+      "subtitle": "Centro diagnostico ABC - Firenze - Piazza Duomo 15"
+    },
+    {
+      "date": "MAR 03",
+      "title": "Radiografia dentale",
+      "subtitle": "Studio Dentistico XYZ - Milano - Via Dante 30"
+    },
+    {
+      "date": "FEB 15",
+      "title": "Controllo pressione arteriosa",
+      "subtitle": "Farmacia della Piazza - Napoli - Piazza Plebiscito 25"
+    },
+    {
+      "date": "FEB 05",
+      "title": "Ecocardiogramma",
+      "subtitle": "Clinica Cardiologica Rossi - Roma - Via Appia 789"
+    },
+    {
+      "date": "GEN 20",
+      "title": "Controllo ginecologico",
+      "subtitle": "Ambulatorio Ginecologico ABC - Milano - Corso Buenos Aires 100"
+    },
+    {
+      "date": "GEN 10",
+      "title": "Referto di RMN",
+      "subtitle": "Centro diagnostico XYZ - Bari - Via XX Settembre 30"
+    },
+    {
+      "date": "GEN 01",
+      "title": "Visita fisioterapica",
+      "subtitle": "Centro di Fisioterapia ABC - Firenze - Viale dei Mille 50"
+    }
+  ]
+  
