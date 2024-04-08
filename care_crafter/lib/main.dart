@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'widgets/custom_bottom_navigation_bar.dart';
-
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-
   runApp(PetVaccini());
 }
 
@@ -27,24 +26,22 @@ class VacineRecordPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading:
-          IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              // Navigate back to the homepage
-            },
-          ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            // Navigate back to the homepage
+          },
+        ),
         title: Text('Pet Vaccini'),
         centerTitle: true,
       ),
       body: FutureBuilder(
-        future:
-            DefaultAssetBundle.of(context).loadString('assets/PetVaccini.json'),
+        future: DefaultAssetBundle.of(context)
+            .loadString('assets/PetVaccini.json'),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
-              child:
-                  CircularProgressIndicator(), // Visualizza un indicatore di caricamento durante il recupero dei dati
+              child: CircularProgressIndicator(),
             );
           }
 
@@ -59,7 +56,9 @@ class VacineRecordPage extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
                       border: Border(
-                        bottom: BorderSide(color: Colors.black, width: 1), // Aggiunge una linea nera in basso
+                        bottom: BorderSide(
+                            color: Colors.black,
+                            width: 1), // Aggiunge una linea nera in basso
                       ),
                     ),
                     child: Row(
@@ -68,7 +67,7 @@ class VacineRecordPage extends StatelessWidget {
                           width: 70,
                           height: 70,
                           decoration: BoxDecoration(
-                            color: Color.fromRGBO(174, 213, 129,1),
+                            color: Color.fromRGBO(174, 213, 129, 1),
                             border: Border.all(color: Color(0xff2C5D39)),
                           ),
                           child: Column(
@@ -78,15 +77,21 @@ class VacineRecordPage extends StatelessWidget {
                                 healthRecords[index]['date'],
                                 style: TextStyle(color: Colors.black),
                               ),
-                              SizedBox(height: 4), // Spazio tra la data e l'anno
+                              SizedBox(
+                                  height:
+                                      4), // Spazio tra la data e l'anno
                               Text(
                                 '2023',
-                                style: TextStyle(color: Colors.black, fontSize: 12), // Stile per l'anno
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 12), // Stile per l'anno
                               ),
                             ],
                           ),
                         ),
-                        SizedBox(width: 8), // Spazio tra la data e l'icona
+                        SizedBox(
+                            width:
+                                8), // Spazio tra la data e l'icona
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,7 +107,16 @@ class VacineRecordPage extends StatelessWidget {
                         IconButton(
                           icon: Icon(Icons.visibility), // Icona dell'occhio
                           onPressed: () {
-                            // Azione quando si preme l'occhio
+                            // Apri il PDF
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PdfViewerPage(
+                                  pdfAssetPath:
+                                      'assets/Vaccino.pdf',
+                                ),
+                              ),
+                            );
                           },
                         ),
                       ],
@@ -114,7 +128,27 @@ class VacineRecordPage extends StatelessWidget {
           );
         },
       ),
-     bottomNavigationBar: CustomBottomNavigationBar(),
+      bottomNavigationBar: CustomBottomNavigationBar(),
+    );
+  }
+}
+
+class PdfViewerPage extends StatelessWidget {
+  final String pdfAssetPath;
+
+  PdfViewerPage({required this.pdfAssetPath});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('PDF Viewer'),
+      ),
+      body: PDFView(
+        filePath: pdfAssetPath,
+        enableSwipe: true,
+        swipeHorizontal: false,
+      ),
     );
   }
 }
