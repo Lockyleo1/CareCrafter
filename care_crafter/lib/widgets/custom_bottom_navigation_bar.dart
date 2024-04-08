@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-// TODO Implement this library.
-
-=======
->>>>>>> 1fa1af6ae35c639b766d8d539b79a4e0de527c57
 import 'package:flutter/material.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {

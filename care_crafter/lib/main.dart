@@ -3,10 +3,10 @@ import 'widgets/custom_bottom_navigation_bar.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(PetCareCrafterPage());
+  runApp(HomePageCareCrafter());
 }
 
-class PetCareCrafterPage extends StatelessWidget {
+class HomePageCareCrafter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
