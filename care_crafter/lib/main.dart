@@ -11,49 +11,110 @@ class HomePageCareCrafter extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          title: Text('PetCareCrafter'),
-          centerTitle: true,
-        ),
-        body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/Immagini_CareCrafter/fattoria.png'),
-              fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.25),
-                  BlendMode.dstATop),
-            ),
-          ),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(height: 100),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildCircularButton(context, 'Fuffy',
-                        'assets/Immagini_CareCrafter/Fuffy.png'),
-                    SizedBox(width: 30),
-                    _buildCircularButton(context, 'Mowgly',
-                        'assets/Immagini_CareCrafter/Mowgly.png'),
-                  ],
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(60),
+          child: AppBar(
+            toolbarHeight: 60,
+            leading: Padding(
+              padding: EdgeInsets.all(4.0),
+              child: Container(
+                width: 40,
+                height: 40,
+                // Aggiungi padding al logo blu
+                padding: EdgeInsets.all(3.0),
+                child: Image.asset(
+                  "assets/Immagini_CareCrafter/LogoBlu.png",
+                  fit: BoxFit.cover,
                 ),
-                SizedBox(height: 50),
-                _buildAddUserButton(context),
-              ],
+              ),
             ),
+            actions: [
+              Padding(
+                padding: EdgeInsets.all(0),
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  child: Image.asset(
+                    "assets/Immagini_CareCrafter/logoCareCrafterR.png",
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
+        body: _buildBody(),
         bottomNavigationBar: CustomBottomNavigationBar(),
       ),
     );
+  }
+
+  Widget _buildBody() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              _buildSquareButton('Fascicolo Sanitario',
+                  "assets/Immagini_CareCrafter/FascicoloElettronico.png"),
+              _buildSquareButton('Chatta con uno specialista',
+                  "assets/Immagini_CareCrafter/ChattaConSpecialista.png"),
+            ],
+          ),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              _buildSquareButton('Prendi appuntamento',
+                  "assets/Immagini_CareCrafter/Calendar.png"),
+              _buildSquareButton('Pet Fascicolo',
+                  "assets/Immagini_CareCrafter/Veterinario.png"),
+            ],
+          ),
+          SizedBox(height: 20),
+          _buildRoundedButton('Vaccini'),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSquareButton(String text, String iconData) {
+    return Container(
+        width: 150,
+        height: 150,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Color(0xFF58E4FF),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              side: BorderSide(color: Color(0xFF1C448E)),
+            ),
+          ),
+          onPressed: () {
+            print('Button clicked: $text');
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Image.asset(
+                  iconData,
+                  width: 50,
+                  height: 50,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                text,
+                style: TextStyle(color: Colors.black),
+              ),
+            ],
+          ),
+        ));
   }
 
   Widget _buildCircularButton(
@@ -68,7 +129,6 @@ class HomePageCareCrafter extends StatelessWidget {
             width: 150,
             height: 150,
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
               shape: BoxShape.circle,
               image: DecorationImage(
                 image: AssetImage(imagePath),
@@ -76,13 +136,13 @@ class HomePageCareCrafter extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 10), // Spazio tra il cerchio e la scritta
           Text(
             username,
             style: TextStyle(
                 color: Colors.black,
                 decoration: TextDecoration.underline,
-                fontSize: 25),
+                fontSize: 18), // Aumento della dimensione del carattere
           ),
         ],
       ),
@@ -99,12 +159,11 @@ class HomePageCareCrafter extends StatelessWidget {
         height: 150,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: Colors.black),
-          color: Colors.transparent,
+          color: Colors.grey,
         ),
         child: Icon(
           Icons.add,
-          color: const Color.fromARGB(255, 0, 0, 0),
+          color: Colors.white,
           size: 50,
         ),
       ),
@@ -134,5 +193,3 @@ class HomePageCareCrafter extends StatelessWidget {
     );
   }
 }
-
-
