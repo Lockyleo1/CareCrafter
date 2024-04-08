@@ -112,23 +112,9 @@ class PetCareCrafterPage extends StatelessWidget {
               text,
               style: TextStyle(color: Colors.black),
             ),
-          ),
+          ],
         ),
-        bottomNavigationBar: BottomAppBar(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.account_circle),
-                onPressed: () {
-                  // Navigate to account page
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+      ));
   }
 
   Widget _buildCircularButton(BuildContext context, String username, String imagePath) {
