@@ -47,9 +47,6 @@ flutter:
     - assets/Immagini_CareCrafter/ChattaConSpecialista.png
     - assets/Immagini_CareCrafter/Veterinario.png
     - assets/Immagini_CareCrafter/Calendar.png
-    - assets/images/cANE1.png
-    - assets/images/CareCrafter.jpeg
-    - assets/images/fattoria.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
