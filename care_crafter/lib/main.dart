@@ -39,8 +39,8 @@ class AccountScreen extends StatelessWidget {
           child: Column(
             children: <Widget>[
               _buildHeader(),
-              _buildInfoSection(),
-              _buildContactSection(),
+              _buildInfo(),
+              _buildContact(),
             ],
           ),
         ),
@@ -97,7 +97,7 @@ class AccountScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoSection() {
+  Widget _buildInfo() {
     return Container(
       padding: EdgeInsets.all(16.0),
       child: Column(
@@ -140,7 +140,7 @@ class AccountScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildContactSection() {
+  Widget _buildContact() {
     return Container(
       padding: EdgeInsets.all(16.0),
       child: Column(
