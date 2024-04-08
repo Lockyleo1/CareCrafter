@@ -1,0 +1,57 @@
+[
+    {
+      "date": "DIC 10",
+      "title": "Vaccino contro la poliomielite",
+      "subtitle": "Ospedale Veterinario - Bologna - Piazza dei Cani 15"
+    },
+    {
+      "date": "NOV 05",
+      "title": "Vaccino contro la parainfluenza",
+      "subtitle": "Clinica per Animali - Catania - Via dei Cani 25"
+    },
+    {
+      "date": "OTT 22",
+      "title": "Vaccino contro la cimurro",
+      "subtitle": "Ambulatorio Veterinario - Palermo - Corso dei Gatti 35"
+    },
+    {
+      "date": "SET 18",
+      "title": "Vaccino contro l'epatite infettiva",
+      "subtitle": "Ospedale Veterinario - Genova - Piazza degli Animali 25"
+    },
+    {
+      "date": "AGO 10",
+      "title": "Vaccino contro la gastroenterite virale",
+      "subtitle": "Ambulatorio Vaccinazioni Veterinarie - Bari - Via del Cavallo 10"
+    },
+    {
+      "date": "LUG 03",
+      "title": "Vaccino contro la tosse dei canili",
+      "subtitle": "Clinica Veterinaria - Trieste - Via Veterinaria 15"
+    },
+    {
+      "date": "GIU 20",
+      "title": "Vaccino contro la parainfluenza",
+      "subtitle": "Ambulatorio Veterinario - Verona - Via del Cane 20"
+    },
+    {
+      "date": "MAG 12",
+      "title": "Vaccino contro la leptospirosi",
+      "subtitle": "Ospedale Veterinario - Padova - Piazza degli Animali 30"
+    },
+    {
+      "date": "APR 05",
+      "title": "Vaccino contro la rabbia",
+      "subtitle": "Ambulatorio Vaccinazioni Veterinarie - Venezia - Corso dei Gatti 5"
+    },
+    {
+      "date": "MAR 01",
+      "title": "Vaccino contro la parvovirosi",
+      "subtitle": "Clinica Veterinaria - Udine - Via del Cavallo 1"
+    },
+    {
+      "date": "GEN 15",
+      "title": "Vaccino contro la leptospirosi",
+      "subtitle": "Ambulatorio Vaccinazioni Veterinarie - Firenze - Via del Cavallo 5"
+    }
+]

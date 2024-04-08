@@ -3,10 +3,10 @@ import 'widgets/custom_bottom_navigation_bar.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(PetCareCrafterPage());
+  runApp(HomePageCareCrafter());
 }
 
-class PetCareCrafterPage extends StatelessWidget {
+class HomePageCareCrafter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -110,4 +110,29 @@ class PetCareCrafterPage extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildRoundedButton(String text) {
+    return Container(
+      width: 200,
+      height: 50,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Color(0xFF58E4FF),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+            side: BorderSide(color: Color(0xFF1C448E)),
+          ),
+        ),
+        onPressed: () {
+          print('Button clicked: $text');
+        },
+        child: Text(
+          text,
+          style: TextStyle(color: Colors.black),
+        ),
+      ),
+    );
+  }
 }
+
+
