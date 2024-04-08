@@ -1,3 +1,4 @@
+import 'package:care_crafter/screens/account_screen.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -10,7 +11,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.account_circle),
             onPressed: () {
-              // Azione per l'icona dell'account
+               Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AccountScreen()),
+            );
             },
           ),
           SizedBox(width: 20),
