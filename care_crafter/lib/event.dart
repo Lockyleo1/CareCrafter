@@ -1,6 +1,7 @@
 class Event {
-  final String title;
-  Event(this.title);
+  String title;
+  DateTime dateTime;
+  Event(this.title, this.dateTime);
 
 
 @override
