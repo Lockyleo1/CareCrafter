@@ -1,3 +1,4 @@
+import 'package:care_crafter/screens/PetHomePage.dart';
 import 'package:flutter/material.dart';
 import 'widgets/custom_bottom_navigation_bar.dart';
 
@@ -153,7 +154,10 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
   Widget _buildPetRecordButton() {
     return _buildSquareButton(
         'Pet Fascicolo', "assets/Immagini_CareCrafter/Veterinario.png", () {
-      print('PetFascicolo Button clicked');
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => PetCareCrafterPage()),
+      );
     });
   }
 
