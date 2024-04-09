@@ -51,6 +51,12 @@ class _AppointmentsState extends State<Appointments> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Appuntamenti'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
