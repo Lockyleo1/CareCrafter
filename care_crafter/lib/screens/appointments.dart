@@ -20,11 +20,11 @@ class _AppointmentsState extends State<Appointments> {
   late final ValueNotifier<List<Event>> _selectedEvents;
   List<String> doctors = ['Dottor Rossi', 'Dottor Bianchi', 'Dottor Verdi'];
   List<String> locations = ['Sede A', 'Sede B', 'Sede C'];
-  List<String> appointmentTitles = ['Oculista', 'Dentista', 'Neurologo']; // Lista preimpostata di titoli di appuntamenti
+  List<String> appointmentTitles = ['Oculista', 'Dentista', 'Neurologo'];
 
   String? _selectedDoctor;
   String? _selectedLocation;
-  String? _selectedAppointmentTitle; // Titolo selezionato dall'utente
+  String? _selectedAppointmentTitle;
 
   @override
   void initState() {
@@ -70,7 +70,6 @@ class _AppointmentsState extends State<Appointments> {
           showDialog(
             context: context,
             builder: (context) {
-              // Pulisce il controller della casella di testo
               _eventController.clear();
 
               return AlertDialog(
@@ -152,7 +151,7 @@ class _AppointmentsState extends State<Appointments> {
                             );
                             events.update(
                               _selectedDay!,
-                              (value) => [...value, Event(_selectedAppointmentTitle!, selectedDateTime)], // Utilizza il titolo selezionato dall'utente
+                              (value) => [...value, Event(_selectedAppointmentTitle!, selectedDateTime)],
                               ifAbsent: () => [Event(_selectedAppointmentTitle!, selectedDateTime)],
                             );
                             _selectedEvents.value = _getEventsForDay(_selectedDay!);
@@ -260,7 +259,7 @@ class _AppointmentsState extends State<Appointments> {
             },
           ),
         ),
-        SizedBox(height: 1.0), // Aggiungi spazio tra le due sezioni
+        SizedBox(height: 1.0),
         Text(
           'Prossimi appuntamenti',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -324,19 +323,15 @@ class _AppointmentsState extends State<Appointments> {
   }
 
   List<Event> _getAllFutureAppointments() {
-    // Filtra gli appuntamenti futuri
     List<Event> futureAppointments = events.values.expand((events) => events).where((event) => event.dateTime.isAfter(DateTime.now())).toList();
-    
-    // Ordina gli appuntamenti per data e ora
     futureAppointments.sort((a, b) => a.dateTime.compareTo(b.dateTime));
     
     return futureAppointments;
   }
 
   void _editAppointment(BuildContext context, Event event) {
-  DateTime selectedDateTime = event.dateTime!; // Salva l'orario attuale dell'evento
-  
-  _selectedAppointmentTitle = event.title; // Imposta il titolo preselezionato
+  DateTime selectedDateTime = event.dateTime!;
+  _selectedAppointmentTitle = event.title;
   
   showDialog(
     context: context,
@@ -434,7 +429,6 @@ class _AppointmentsState extends State<Appointments> {
             SizedBox(height: 8.0),
             TextButton(
               onPressed: () {
-                // Aggiorna l'evento con il nuovo titolo e l'orario
                 setState(() {
                   event.title = _selectedAppointmentTitle!;
                   event.dateTime = selectedDateTime;
@@ -449,8 +443,6 @@ class _AppointmentsState extends State<Appointments> {
     },
   );
 }
-
-
   void _deleteAppointment(Event event) {
     setState(() {
       events[_selectedDay!]!.remove(event);
