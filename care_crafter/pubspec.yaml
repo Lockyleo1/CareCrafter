@@ -24,6 +24,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  table_calendar: ^3.1.0
     
   cupertino_icons: ^1.0.6
   flutter_pdfview: ^1.3.2
