@@ -18,6 +18,13 @@ class _AppointmentsState extends State<Appointments> {
   Map<DateTime, List<Event>> events = {};
   TextEditingController _eventController = TextEditingController();
   late final ValueNotifier<List<Event>> _selectedEvents;
+  List<String> doctors = ['Dottor Rossi', 'Dottor Bianchi', 'Dottor Verdi'];
+  List<String> locations = ['Sede A', 'Sede B', 'Sede C'];
+  List<String> appointmentTitles = ['Oculista', 'Dentista', 'Neurologo']; // Lista preimpostata di titoli di appuntamenti
+
+  String? _selectedDoctor;
+  String? _selectedLocation;
+  String? _selectedAppointmentTitle; // Titolo selezionato dall'utente
 
   @override
   void initState() {
@@ -72,9 +79,61 @@ class _AppointmentsState extends State<Appointments> {
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    TextField(
-                      controller: _eventController,
-                      decoration: InputDecoration(labelText: 'Titolo'),
+                    DropdownButtonFormField<String>(
+                      value: _selectedAppointmentTitle,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedAppointmentTitle = value;
+                        });
+                      },
+                      items: appointmentTitles.map((title) {
+                        return DropdownMenuItem<String>(
+                          value: title,
+                          child: Text(title),
+                        );
+                      }).toList(),
+                      decoration: InputDecoration(
+                        labelText: 'Titolo',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    SizedBox(height: 8.0),
+                    DropdownButtonFormField<String>(
+                      value: _selectedDoctor,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedDoctor = value;
+                        });
+                      },
+                      items: doctors.map((doctor) {
+                        return DropdownMenuItem<String>(
+                          value: doctor,
+                          child: Text(doctor),
+                        );
+                      }).toList(),
+                      decoration: InputDecoration(
+                        labelText: 'Dottore',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    SizedBox(height: 8.0),
+                    DropdownButtonFormField<String>(
+                      value: _selectedLocation,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedLocation = value;
+                        });
+                      },
+                      items: locations.map((location) {
+                        return DropdownMenuItem<String>(
+                          value: location,
+                          child: Text(location),
+                        );
+                      }).toList(),
+                      decoration: InputDecoration(
+                        labelText: 'Sede',
+                        border: OutlineInputBorder(),
+                      ),
                     ),
                     SizedBox(height: 8.0),
                     TextButton(
@@ -93,8 +152,8 @@ class _AppointmentsState extends State<Appointments> {
                             );
                             events.update(
                               _selectedDay!,
-                              (value) => [...value, Event(_eventController.text, selectedDateTime)],
-                              ifAbsent: () => [Event(_eventController.text, selectedDateTime)],
+                              (value) => [...value, Event(_selectedAppointmentTitle!, selectedDateTime)], // Utilizza il titolo selezionato dall'utente
+                              ifAbsent: () => [Event(_selectedAppointmentTitle!, selectedDateTime)],
                             );
                             _selectedEvents.value = _getEventsForDay(_selectedDay!);
                             Navigator.of(context).pop();
@@ -168,7 +227,15 @@ class _AppointmentsState extends State<Appointments> {
                     ),
                     child: ListTile(
                       title: Text(value[index].title),
-                      subtitle: Text(value[index].dateTime.toString()),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Data: ${DateFormat('dd/MM/yyyy').format(value[index].dateTime!)}'),
+                          Text('Ora: ${DateFormat('HH:mm').format(value[index].dateTime!)}'),
+                          Text('Dottore: $_selectedDoctor'),
+                          Text('Sede: $_selectedLocation'),
+                        ],
+                      ),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -219,7 +286,15 @@ class _AppointmentsState extends State<Appointments> {
                     ),
                     child: ListTile(
                       title: Text(appointment.title),
-                      subtitle: Text(DateFormat('dd/MM/yyyy HH:mm').format(appointment.dateTime)),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Data: ${DateFormat('dd/MM/yyyy').format(appointment.dateTime!)}'),
+                          Text('Ora: ${DateFormat('HH:mm').format(appointment.dateTime!)}'),
+                          Text('Dottore: $_selectedDoctor'),
+                          Text('Sede: $_selectedLocation'),
+                        ],
+                      ),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -303,6 +378,44 @@ class _AppointmentsState extends State<Appointments> {
                     child: Text('Cambia orario'),
                   ),
                 ],
+              ),
+              SizedBox(height: 8.0),
+              DropdownButtonFormField<String>(
+                value: _selectedDoctor,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedDoctor = value;
+                  });
+                },
+                items: doctors.map((doctor) {
+                  return DropdownMenuItem<String>(
+                    value: doctor,
+                    child: Text(doctor),
+                  );
+                }).toList(),
+                decoration: InputDecoration(
+                  labelText: 'Dottore',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 8.0),
+              DropdownButtonFormField<String>(
+                value: _selectedLocation,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedLocation = value;
+                  });
+                },
+                items: locations.map((location) {
+                  return DropdownMenuItem<String>(
+                    value: location,
+                    child: Text(location),
+                  );
+                }).toList(),
+                decoration: InputDecoration(
+                  labelText: 'Sede',
+                  border: OutlineInputBorder(),
+                ),
               ),
               SizedBox(height: 8.0),
               TextButton(
