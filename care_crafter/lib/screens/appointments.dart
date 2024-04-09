@@ -334,107 +334,122 @@ class _AppointmentsState extends State<Appointments> {
   }
 
   void _editAppointment(BuildContext context, Event event) {
-    DateTime selectedDateTime = event.dateTime!; // Salva l'orario attuale dell'evento
-    
-    _eventController.text = event.title; // Riempie il campo di input con il titolo dell'evento esistente
-    
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          scrollable: true,
-          title: Text("Modifica appuntamento"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: _eventController,
-                decoration: InputDecoration(labelText: 'Nuovo titolo'),
+  DateTime selectedDateTime = event.dateTime!; // Salva l'orario attuale dell'evento
+  
+  _selectedAppointmentTitle = event.title; // Imposta il titolo preselezionato
+  
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        scrollable: true,
+        title: Text("Modifica appuntamento"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            DropdownButtonFormField<String>(
+              value: _selectedAppointmentTitle,
+              onChanged: (value) {
+                setState(() {
+                  _selectedAppointmentTitle = value;
+                });
+              },
+              items: appointmentTitles.map((title) {
+                return DropdownMenuItem<String>(
+                  value: title,
+                  child: Text(title),
+                );
+              }).toList(),
+              decoration: InputDecoration(
+                labelText: 'Titolo',
+                border: OutlineInputBorder(),
               ),
-              SizedBox(height: 8.0),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text('Orario attuale: ${DateFormat('HH:mm').format(selectedDateTime)}'),
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      final TimeOfDay? pickedTime = await showTimePicker(
-                        context: context,
-                        initialTime: TimeOfDay.fromDateTime(selectedDateTime),
-                      );
-                      if (pickedTime != null) {
-                        setState(() {
-                          selectedDateTime = DateTime(
-                            selectedDateTime.year,
-                            selectedDateTime.month,
-                            selectedDateTime.day,
-                            pickedTime.hour,
-                            pickedTime.minute,
-                          );
-                        });
-                      }
-                    },
-                    child: Text('Cambia orario'),
-                  ),
-                ],
-              ),
-              SizedBox(height: 8.0),
-              DropdownButtonFormField<String>(
-                value: _selectedDoctor,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedDoctor = value;
-                  });
-                },
-                items: doctors.map((doctor) {
-                  return DropdownMenuItem<String>(
-                    value: doctor,
-                    child: Text(doctor),
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  labelText: 'Dottore',
-                  border: OutlineInputBorder(),
+            ),
+            SizedBox(height: 8.0),
+            Row(
+              children: [
+                Expanded(
+                  child: Text('Orario attuale: ${DateFormat('HH:mm').format(selectedDateTime)}'),
                 ),
-              ),
-              SizedBox(height: 8.0),
-              DropdownButtonFormField<String>(
-                value: _selectedLocation,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedLocation = value;
-                  });
-                },
-                items: locations.map((location) {
-                  return DropdownMenuItem<String>(
-                    value: location,
-                    child: Text(location),
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  labelText: 'Sede',
-                  border: OutlineInputBorder(),
+                TextButton(
+                  onPressed: () async {
+                    final TimeOfDay? pickedTime = await showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay.fromDateTime(selectedDateTime),
+                    );
+                    if (pickedTime != null) {
+                      setState(() {
+                        selectedDateTime = DateTime(
+                          selectedDateTime.year,
+                          selectedDateTime.month,
+                          selectedDateTime.day,
+                          pickedTime.hour,
+                          pickedTime.minute,
+                        );
+                      });
+                    }
+                  },
+                  child: Text('Cambia orario'),
                 ),
+              ],
+            ),
+            SizedBox(height: 8.0),
+            DropdownButtonFormField<String>(
+              value: _selectedDoctor,
+              onChanged: (value) {
+                setState(() {
+                  _selectedDoctor = value;
+                });
+              },
+              items: doctors.map((doctor) {
+                return DropdownMenuItem<String>(
+                  value: doctor,
+                  child: Text(doctor),
+                );
+              }).toList(),
+              decoration: InputDecoration(
+                labelText: 'Dottore',
+                border: OutlineInputBorder(),
               ),
-              SizedBox(height: 8.0),
-              TextButton(
-                onPressed: () {
-                  // Aggiorna l'evento con il nuovo titolo e l'orario
-                  setState(() {
-                    event.title = _eventController.text;
-                    event.dateTime = selectedDateTime;
-                  });
-                  Navigator.of(context).pop();
-                },
-                child: Text('Salva modifiche'),
+            ),
+            SizedBox(height: 8.0),
+            DropdownButtonFormField<String>(
+              value: _selectedLocation,
+              onChanged: (value) {
+                setState(() {
+                  _selectedLocation = value;
+                });
+              },
+              items: locations.map((location) {
+                return DropdownMenuItem<String>(
+                  value: location,
+                  child: Text(location),
+                );
+              }).toList(),
+              decoration: InputDecoration(
+                labelText: 'Sede',
+                border: OutlineInputBorder(),
               ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+            ),
+            SizedBox(height: 8.0),
+            TextButton(
+              onPressed: () {
+                // Aggiorna l'evento con il nuovo titolo e l'orario
+                setState(() {
+                  event.title = _selectedAppointmentTitle!;
+                  event.dateTime = selectedDateTime;
+                });
+                Navigator.of(context).pop();
+              },
+              child: Text('Salva modifiche'),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
 
   void _deleteAppointment(Event event) {
     setState(() {
