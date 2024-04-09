@@ -1,3 +1,4 @@
+import 'package:care_crafter/main.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -17,7 +18,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.home),
             onPressed: () {
-              // Azione per l'icona di home
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MyApp()),
+              );
             },
           ),
         ],

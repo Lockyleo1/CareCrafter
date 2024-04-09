@@ -15,20 +15,29 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePageCareCrafter extends StatelessWidget {
+class HomePageCareCrafter extends StatefulWidget {
+  @override
+  _HomePageCareCrafterState createState() => _HomePageCareCrafterState();
+}
+
+class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
+  bool _isExpanded = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: AppBar(
+          elevation: 0,
           toolbarHeight: 60,
+          backgroundColor: Color(0xFF58E4FF),
           leading: Padding(
             padding: EdgeInsets.all(4.0),
             child: Container(
               width: 40,
               height: 40,
-              padding: EdgeInsets.all(3.0),
+              padding: EdgeInsets.all(1.0),
               child: Image.asset(
                 "assets/Immagini_CareCrafter/LogoBlu.png",
                 fit: BoxFit.cover,
@@ -50,42 +59,80 @@ class HomePageCareCrafter extends StatelessWidget {
           ],
         ),
       ),
-      body: _buildBody(context),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          _buildExpansionPanel(),
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                _buildHealthRecordButton(),
+                _buildChatWithSpecialistButton(),
+                _buildAppointmentButton(),
+                _buildPetRecordButton(),
+              ],
+            ),
+          ),
+        ],
+      ),
       bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 
-  Widget _buildBody(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  Widget _buildExpansionPanel() {
+    return ExpansionPanelList(
+      expansionCallback: (int index, bool isExpanded) {
+        setState(() {
+          _isExpanded = !_isExpanded;
+        });
+      },
+      children: [
+        ExpansionPanel(
+          headerBuilder: (BuildContext context, bool isExpanded) {
+            return Container(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Menù',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
+            );
+          },
+          body: Column(
             children: <Widget>[
-              _buildHealthRecordButton(),
-              _buildChatWithSpecialistButton(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildRoundedButton('Vaccini', () {
+                    print('Vaccines Button clicked');
+                  }),
+                  SizedBox(width: 25),
+                  _buildRoundedButton('Farmaci da ritirare', () {
+                    print('Medicines Button clicked');
+                  }),
+                ],
+              ),
+              SizedBox(height: 5),
+              _buildRoundedButton('Trova un Dottore', () {
+                print('SearchDoctor Button clicked');
+              }),
             ],
           ),
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              _buildAppointmentButton(),
-              _buildPetRecordButton(),
-            ],
-          ),
-          SizedBox(height: 20),
-          _buildVaccinesButton(),
-        ],
-      ),
+          isExpanded: _isExpanded,
+        ),
+      ],
     );
   }
 
   Widget _buildHealthRecordButton() {
     return _buildSquareButton('Fascicolo Sanitario',
         "assets/Immagini_CareCrafter/FascicoloElettronico.png", () {
-      print('Fascicolo elettronico Button clicked');
+      print('HealthRecord Button clicked');
     });
   }
 
@@ -106,47 +153,55 @@ class HomePageCareCrafter extends StatelessWidget {
   Widget _buildPetRecordButton() {
     return _buildSquareButton(
         'Pet Fascicolo', "assets/Immagini_CareCrafter/Veterinario.png", () {
-      print('Pet Fascicolo Button clicked');
-    });
-  }
-
-  Widget _buildVaccinesButton() {
-    return _buildRoundedButton('Vaccini',() {
-      print('Vaccines Button clicked');
+      print('PetFascicolo Button clicked');
     });
   }
 
   Widget _buildSquareButton(
       String text, String iconData, VoidCallback onPressed) {
     return Container(
-      width: 150,
-      height: 150,
+      height: 200,
+      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: Color(0xFF58E4FF),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            side: BorderSide(color: Color(0xFF1C448E)),
+            borderRadius: BorderRadius.circular(25.0),
+            side: BorderSide(
+                width: 1,
+                color:
+                    Color.fromARGB(255, 5, 37, 246)), // Aggiungi il bordo qui
           ),
         ),
         onPressed: onPressed,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Image.asset(
-                iconData,
-                width: 50,
-                height: 50,
-                color: Colors.black,
+              padding: EdgeInsets.all(5),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Image.asset(
+                  iconData,
+                  width: 100,
+                  height: 100,
+                  color: Colors.black,
+                ),
               ),
             ),
-            SizedBox(height: 10),
-            Text(
-              text,
-              style: TextStyle(color: Colors.black),
-            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: Center(
+                child: Text(
+                  text,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -155,15 +210,20 @@ class HomePageCareCrafter extends StatelessWidget {
 
   Widget _buildRoundedButton(String text, VoidCallback onPressed) {
     return Container(
-      width: 200,
-      height: 50,
+      width: 180,
+      height: 70,
+      padding: EdgeInsets.symmetric(vertical: 10),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Color(0xFF58E4FF),
+          foregroundColor: Color.fromARGB(255, 5, 37, 246),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),
-            side: BorderSide(color: Color(0xFF1C448E)),
+            side: BorderSide(
+                width: 1,
+                color:
+                    Color.fromARGB(255, 5, 37, 246)), // Aggiungi il bordo qui
           ),
+          backgroundColor: Color(0xFF58E4FF),
         ),
         onPressed: onPressed,
         child: Text(
