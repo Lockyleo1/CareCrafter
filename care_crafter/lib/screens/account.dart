@@ -1,3 +1,4 @@
+import 'package:care_crafter/widgets/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 class AccountScreen extends StatelessWidget {
@@ -39,18 +40,7 @@ class AccountScreen extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.transparent,
-          elevation: 0,
-          child: Container( 
-            height: 60.0,
-            color: Colors.grey[200],
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[],
-            ),
-          ),
-        ),
+        bottomNavigationBar: CustomBottomNavigationBar(),
       ),
     );
   }
@@ -62,7 +52,8 @@ class AccountScreen extends StatelessWidget {
         children: <Widget>[
           CircleAvatar(
             radius: 70.0,
-            backgroundImage: AssetImage('assets/Immagini_CareCrafter/utente.png'),
+            backgroundImage:
+                AssetImage('assets/Immagini_CareCrafter/utente.png'),
           ),
           SizedBox(width: 40.0),
           Column(

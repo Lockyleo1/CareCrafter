@@ -1,4 +1,5 @@
 import 'dart:convert' show json;
+import 'package:care_crafter/widgets/custom_bottom_navigation_bar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -51,7 +52,8 @@ class _AppointmentsState extends State<Appointments> {
   }
 
   Future<Map<String, dynamic>> readJsonData() async {
-    String data = await DefaultAssetBundle.of(context).loadString('assets/data.json');
+    String data =
+        await DefaultAssetBundle.of(context).loadString('assets/data.json');
     return json.decode(data);
   }
 
@@ -173,10 +175,18 @@ class _AppointmentsState extends State<Appointments> {
                             );
                             events.update(
                               _selectedDay!,
-                              (value) => [...value, Event(_selectedAppointmentTitle!, selectedDateTime)],
-                              ifAbsent: () => [Event(_selectedAppointmentTitle!, selectedDateTime)],
+                              (value) => [
+                                ...value,
+                                Event(_selectedAppointmentTitle!,
+                                    selectedDateTime)
+                              ],
+                              ifAbsent: () => [
+                                Event(_selectedAppointmentTitle!,
+                                    selectedDateTime)
+                              ],
                             );
-                            _selectedEvents.value = _getEventsForDay(_selectedDay!);
+                            _selectedEvents.value =
+                                _getEventsForDay(_selectedDay!);
                             Navigator.of(context).pop();
                           }
                         });
@@ -191,6 +201,7 @@ class _AppointmentsState extends State<Appointments> {
         },
         child: Icon(Icons.add),
       ),
+      bottomNavigationBar: CustomBottomNavigationBar(),
       body: ListView(
         children: [
           TableCalendar(
@@ -231,7 +242,8 @@ class _AppointmentsState extends State<Appointments> {
               return value.length > 0
                   ? Column(
                       children: [
-                        Text('Appuntamenti del ${DateFormat('dd/MM/yyyy').format(_selectedDay!)}',
+                        Text(
+                            'Appuntamenti del ${DateFormat('dd/MM/yyyy').format(_selectedDay!)}',
                             style: TextStyle(fontWeight: FontWeight.bold)),
                         ListView.builder(
                           shrinkWrap: true,
@@ -239,7 +251,8 @@ class _AppointmentsState extends State<Appointments> {
                           itemCount: value.length,
                           itemBuilder: (context, index) {
                             return Container(
-                              margin: EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 12.0, vertical: 4.0),
                               decoration: BoxDecoration(
                                 border: Border.all(),
                                 borderRadius: BorderRadius.circular(12.0),
@@ -249,8 +262,10 @@ class _AppointmentsState extends State<Appointments> {
                                 subtitle: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Data: ${DateFormat('dd/MM/yyyy').format(value[index].dateTime!)}'),
-                                    Text('Ora: ${DateFormat('HH:mm').format(value[index].dateTime!)}'),
+                                    Text(
+                                        'Data: ${DateFormat('dd/MM/yyyy').format(value[index].dateTime!)}'),
+                                    Text(
+                                        'Ora: ${DateFormat('HH:mm').format(value[index].dateTime!)}'),
                                     Text('Dottore: $_selectedDoctor'),
                                     Text('Sede: $_selectedLocation'),
                                   ],
@@ -278,7 +293,8 @@ class _AppointmentsState extends State<Appointments> {
                         ),
                       ],
                     )
-                  : Text("Nessun appuntamento in data ${_selectedDay!.day}/${_selectedDay!.month}/${_selectedDay!.year}",
+                  : Text(
+                      "Nessun appuntamento in data ${_selectedDay!.day}/${_selectedDay!.month}/${_selectedDay!.year}",
                       textAlign: TextAlign.center);
             },
           ),
@@ -292,7 +308,8 @@ class _AppointmentsState extends State<Appointments> {
             valueListenable: _selectedEvents,
             builder: (context, value, _) {
               final futureAppointments = _getAllFutureAppointments();
-              futureAppointments.sort((a, b) => a.dateTime!.compareTo(b.dateTime!));
+              futureAppointments
+                  .sort((a, b) => a.dateTime!.compareTo(b.dateTime!));
               return ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
@@ -300,7 +317,8 @@ class _AppointmentsState extends State<Appointments> {
                 itemBuilder: (context, index) {
                   final appointment = futureAppointments[index];
                   return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
                     decoration: BoxDecoration(
                       border: Border.all(),
                       borderRadius: BorderRadius.circular(12.0),
@@ -310,8 +328,10 @@ class _AppointmentsState extends State<Appointments> {
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Data: ${DateFormat('dd/MM/yyyy').format(appointment.dateTime!)}'),
-                          Text('Ora: ${DateFormat('HH:mm').format(appointment.dateTime!)}'),
+                          Text(
+                              'Data: ${DateFormat('dd/MM/yyyy').format(appointment.dateTime!)}'),
+                          Text(
+                              'Ora: ${DateFormat('HH:mm').format(appointment.dateTime!)}'),
                           Text('Dottore: $_selectedDoctor'),
                           Text('Sede: $_selectedLocation'),
                         ],
@@ -345,16 +365,19 @@ class _AppointmentsState extends State<Appointments> {
   }
 
   List<Event> _getAllFutureAppointments() {
-    List<Event> futureAppointments = events.values.expand((events) => events).where((event) => event.dateTime.isAfter(DateTime.now())).toList();
+    List<Event> futureAppointments = events.values
+        .expand((events) => events)
+        .where((event) => event.dateTime.isAfter(DateTime.now()))
+        .toList();
     futureAppointments.sort((a, b) => a.dateTime.compareTo(b.dateTime));
-    
+
     return futureAppointments;
   }
 
   void _editAppointment(BuildContext context, Event event) {
     DateTime selectedDateTime = event.dateTime!;
     _selectedAppointmentTitle = event.title;
-  
+
     showDialog(
       context: context,
       builder: (context) {
@@ -387,7 +410,8 @@ class _AppointmentsState extends State<Appointments> {
               Row(
                 children: [
                   Expanded(
-                    child: Text('Orario attuale: ${DateFormat('HH:mm').format(selectedDateTime)}'),
+                    child: Text(
+                        'Orario attuale: ${DateFormat('HH:mm').format(selectedDateTime)}'),
                   ),
                   TextButton(
                     onPressed: () async {
