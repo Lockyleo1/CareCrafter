@@ -25,10 +25,10 @@ dependencies:
   flutter:
     sdk: flutter
   table_calendar: ^3.1.0
-    
   cupertino_icons: ^1.0.6
   flutter_pdfview: ^1.3.2
-
+  image_picker: ^0.8.4+2
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -49,6 +49,11 @@ flutter:
     - assets/Immagini_CareCrafter/ChattaConSpecialista.png
     - assets/Immagini_CareCrafter/Veterinario.png
     - assets/Immagini_CareCrafter/Calendar.png
+    - assets/Immagini_CareCrafter/fattoria.png
+    - assets/Immagini_CareCrafter/Fuffy.png
+    - assets/Immagini_CareCrafter/utente.png
+    - assets/Immagini_CareCrafter/Mowgly.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
