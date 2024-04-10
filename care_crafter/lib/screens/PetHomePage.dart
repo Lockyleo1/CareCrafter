@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:care_crafter/screens/petFSE.dart';
 import 'package:care_crafter/widgets/addPet.dart';
 import 'package:care_crafter/widgets/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -105,31 +106,40 @@ class _PetCareCrafterPageState extends State<PetCareCrafterPage> {
 
   Widget _buildCircularButton(
       BuildContext context, String username, String imagePath) {
-    return Column(
-      children: [
-        Container(
-          width: 150,
-          height: 150,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.black),
-            shape: BoxShape.circle,
-            image: DecorationImage(
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => PetFSE()),
+        );
+      },
+      child: Column(
+        children: [
+          Container(
+            width: 150,
+            height: 150,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black),
+              shape: BoxShape.circle,
+              image: DecorationImage(
               image: imagePath.contains("assets") == true
                   ? AssetImage(imagePath)
                   : (Image.file(File(imagePath)).image),
               fit: BoxFit.cover,
             ),
+            ),
           ),
-        ),
-        SizedBox(height: 10),
-        Text(
-          username,
-          style: TextStyle(
+          SizedBox(height: 10),
+          Text(
+            username,
+            style: TextStyle(
               color: Colors.black,
               decoration: TextDecoration.underline,
-              fontSize: 25),
-        ),
-      ],
+              fontSize: 25,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

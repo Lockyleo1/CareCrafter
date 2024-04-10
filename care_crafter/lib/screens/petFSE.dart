@@ -1,3 +1,4 @@
+import 'package:care_crafter/widgets/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 class PetFSE extends StatelessWidget {
@@ -8,7 +9,9 @@ class PetFSE extends StatelessWidget {
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
           title: Text(
             'Pet FSE',
@@ -21,7 +24,7 @@ class PetFSE extends StatelessWidget {
           children: [
             Positioned.fill(
               child: Image.asset(
-                'assets/images/fattoria.jpg',
+                'assets/Immagini_CareCrafter/fattoria.png',
                 fit: BoxFit.cover,
               ),
             ),
@@ -120,17 +123,7 @@ class PetFSE extends StatelessWidget {
             ),
           ],
         ),
-        bottomNavigationBar: BottomAppBar(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: Icon(Icons.account_circle),
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ),
+      bottomNavigationBar: CustomBottomNavigationBar(),
       ),
     );
   }

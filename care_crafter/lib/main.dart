@@ -1,4 +1,5 @@
 import 'package:care_crafter/screens/PetHomePage.dart';
+import 'package:care_crafter/screens/appointments.dart';
 import 'package:care_crafter/widgets/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -149,7 +150,10 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
   Widget _buildAppointmentButton() {
     return _buildSquareButton(
         'Prendi appuntamento', "assets/Immagini_CareCrafter/Calendar.png", () {
-      print('Appointment Button clicked');
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Appointments()),
+      );
     });
   }
 
