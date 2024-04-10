@@ -5,20 +5,6 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:care_crafter/models/event.dart';
 import 'package:intl/intl.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Appointments(),
-    );
-  }
-}
-
 class Appointments extends StatefulWidget {
   const Appointments({Key? key});
 
