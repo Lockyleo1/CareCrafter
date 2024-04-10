@@ -5,6 +5,20 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:care_crafter/models/event.dart';
 import 'package:intl/intl.dart';
 
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Appointments(),
+    );
+  }
+}
+
 class Appointments extends StatefulWidget {
   const Appointments({Key? key});
 
@@ -22,10 +36,6 @@ class _AppointmentsState extends State<Appointments> {
   List<String> doctors = [];
   List<String> locations = [];
   List<String> appointmentTitles = [];
-
-  String? _selectedDoctor;
-  String? _selectedLocation;
-  String? _selectedAppointmentTitle;
 
   @override
   void initState() {
@@ -51,7 +61,8 @@ class _AppointmentsState extends State<Appointments> {
   }
 
   Future<Map<String, dynamic>> readJsonData() async {
-    String data = await DefaultAssetBundle.of(context).loadString('assets/data.json');
+    String data =
+        await DefaultAssetBundle.of(context).loadString('assets/data.json');
     return json.decode(data);
   }
 
@@ -86,9 +97,9 @@ class _AppointmentsState extends State<Appointments> {
           showDialog(
             context: context,
             builder: (context) {
-              _selectedDoctor = null;
-              _selectedLocation = null;
-              _selectedAppointmentTitle = null;
+              String? _selectedDoctor = null;
+              String? _selectedLocation = null;
+              String? _selectedAppointmentTitle = null;
               _eventController.clear();
 
               return AlertDialog(
@@ -173,10 +184,24 @@ class _AppointmentsState extends State<Appointments> {
                             );
                             events.update(
                               _selectedDay!,
-                              (value) => [...value, Event(_selectedAppointmentTitle!, selectedDateTime)],
-                              ifAbsent: () => [Event(_selectedAppointmentTitle!, selectedDateTime)],
+                              (value) => [
+                                ...value,
+                                Event(
+                                    _selectedAppointmentTitle!,
+                                    selectedDateTime,
+                                    _selectedDoctor!,
+                                    _selectedLocation!)
+                              ],
+                              ifAbsent: () => [
+                                Event(
+                                    _selectedAppointmentTitle!,
+                                    selectedDateTime,
+                                    _selectedDoctor!,
+                                    _selectedLocation!)
+                              ],
                             );
-                            _selectedEvents.value = _getEventsForDay(_selectedDay!);
+                            _selectedEvents.value =
+                                _getEventsForDay(_selectedDay!);
                             Navigator.of(context).pop();
                           }
                         });
@@ -190,6 +215,7 @@ class _AppointmentsState extends State<Appointments> {
           );
         },
         child: Icon(Icons.add),
+        mini: true,
       ),
       body: ListView(
         children: [
@@ -231,7 +257,8 @@ class _AppointmentsState extends State<Appointments> {
               return value.length > 0
                   ? Column(
                       children: [
-                        Text('Appuntamenti del ${DateFormat('dd/MM/yyyy').format(_selectedDay!)}',
+                        Text(
+                            'Appuntamenti del ${DateFormat('dd/MM/yyyy').format(_selectedDay!)}',
                             style: TextStyle(fontWeight: FontWeight.bold)),
                         ListView.builder(
                           shrinkWrap: true,
@@ -239,7 +266,8 @@ class _AppointmentsState extends State<Appointments> {
                           itemCount: value.length,
                           itemBuilder: (context, index) {
                             return Container(
-                              margin: EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 12.0, vertical: 4.0),
                               decoration: BoxDecoration(
                                 border: Border.all(),
                                 borderRadius: BorderRadius.circular(12.0),
@@ -249,10 +277,12 @@ class _AppointmentsState extends State<Appointments> {
                                 subtitle: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Data: ${DateFormat('dd/MM/yyyy').format(value[index].dateTime!)}'),
-                                    Text('Ora: ${DateFormat('HH:mm').format(value[index].dateTime!)}'),
-                                    Text('Dottore: $_selectedDoctor'),
-                                    Text('Sede: $_selectedLocation'),
+                                    Text(
+                                        'Data: ${DateFormat('dd/MM/yyyy').format(value[index].dateTime!)}'),
+                                    Text(
+                                        'Ora: ${DateFormat('HH:mm').format(value[index].dateTime!)}'),
+                                    Text('Dottore: ${value[index].doctor}'),
+                                    Text('Sede: ${value[index].location}'),
                                   ],
                                 ),
                                 trailing: Row(
@@ -278,7 +308,8 @@ class _AppointmentsState extends State<Appointments> {
                         ),
                       ],
                     )
-                  : Text("Nessun appuntamento in data ${_selectedDay!.day}/${_selectedDay!.month}/${_selectedDay!.year}",
+                  : Text(
+                      "Nessun appuntamento in data ${_selectedDay!.day}/${_selectedDay!.month}/${_selectedDay!.year}",
                       textAlign: TextAlign.center);
             },
           ),
@@ -292,7 +323,8 @@ class _AppointmentsState extends State<Appointments> {
             valueListenable: _selectedEvents,
             builder: (context, value, _) {
               final futureAppointments = _getAllFutureAppointments();
-              futureAppointments.sort((a, b) => a.dateTime!.compareTo(b.dateTime!));
+              futureAppointments
+                  .sort((a, b) => a.dateTime!.compareTo(b.dateTime!));
               return ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
@@ -300,7 +332,8 @@ class _AppointmentsState extends State<Appointments> {
                 itemBuilder: (context, index) {
                   final appointment = futureAppointments[index];
                   return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
                     decoration: BoxDecoration(
                       border: Border.all(),
                       borderRadius: BorderRadius.circular(12.0),
@@ -310,10 +343,12 @@ class _AppointmentsState extends State<Appointments> {
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Data: ${DateFormat('dd/MM/yyyy').format(appointment.dateTime!)}'),
-                          Text('Ora: ${DateFormat('HH:mm').format(appointment.dateTime!)}'),
-                          Text('Dottore: $_selectedDoctor'),
-                          Text('Sede: $_selectedLocation'),
+                          Text(
+                              'Data: ${DateFormat('dd/MM/yyyy').format(appointment.dateTime!)}'),
+                          Text(
+                              'Ora: ${DateFormat('HH:mm').format(appointment.dateTime!)}'),
+                          Text('Dottore: ${appointment.doctor}'),
+                          Text('Sede: ${appointment.location}'),
                         ],
                       ),
                       trailing: Row(
@@ -345,16 +380,21 @@ class _AppointmentsState extends State<Appointments> {
   }
 
   List<Event> _getAllFutureAppointments() {
-    List<Event> futureAppointments = events.values.expand((events) => events).where((event) => event.dateTime.isAfter(DateTime.now())).toList();
+    List<Event> futureAppointments = events.values
+        .expand((events) => events)
+        .where((event) => event.dateTime.isAfter(DateTime.now()))
+        .toList();
     futureAppointments.sort((a, b) => a.dateTime.compareTo(b.dateTime));
-    
+
     return futureAppointments;
   }
 
   void _editAppointment(BuildContext context, Event event) {
     DateTime selectedDateTime = event.dateTime!;
-    _selectedAppointmentTitle = event.title;
-  
+    String? _selectedAppointmentTitle = event.title;
+    String? _selectedDoctor = event.doctor;
+    String? _selectedLocation = event.location;
+
     showDialog(
       context: context,
       builder: (context) {
@@ -387,7 +427,8 @@ class _AppointmentsState extends State<Appointments> {
               Row(
                 children: [
                   Expanded(
-                    child: Text('Orario attuale: ${DateFormat('HH:mm').format(selectedDateTime)}'),
+                    child: Text(
+                        'Orario attuale: ${DateFormat('HH:mm').format(selectedDateTime)}'),
                   ),
                   TextButton(
                     onPressed: () async {
@@ -457,6 +498,8 @@ class _AppointmentsState extends State<Appointments> {
                   setState(() {
                     event.title = _selectedAppointmentTitle!;
                     event.dateTime = selectedDateTime;
+                    event.doctor = _selectedDoctor!;
+                    event.location = _selectedLocation!;
                   });
                   Navigator.of(context).pop();
                 },
@@ -471,7 +514,9 @@ class _AppointmentsState extends State<Appointments> {
 
   void _deleteAppointment(Event event) {
     setState(() {
-      events[_selectedDay!]!.remove(event);
+      events.forEach((day, eventsList) {
+        eventsList.removeWhere((e) => e == event);
+      });
     });
   }
 }

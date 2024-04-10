@@ -1,7 +1,10 @@
 class Event {
   String title;
   DateTime dateTime;
-  Event(this.title, this.dateTime);
+  String doctor;
+  String location;
+
+  Event(this.title, this.dateTime, this.doctor, this.location);
   
   @override
   String toString() => title;
