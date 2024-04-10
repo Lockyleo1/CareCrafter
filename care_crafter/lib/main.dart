@@ -198,7 +198,7 @@ import 'package:care_crafter/screens/appointments.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'event.dart';
+import 'models/event.dart';
 
 void main() {
   runApp(MaterialApp(

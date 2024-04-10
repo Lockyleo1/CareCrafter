@@ -1,0 +1,6 @@
+{
+    "doctors": ["Dottor Rossi", "Dottor Bianchi", "Dottor Verdi"],
+    "locations": ["Ospedale San Lorenzino - Cesena", "Sede B", "Sede C"],
+    "appointmentTitles": ["Oculista", "Dentista", "Neurologo"]
+  }
+  
