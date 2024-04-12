@@ -148,11 +148,7 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
   Widget _buildChatWithSpecialistButton() {
     return _buildSquareButton('Chatta con uno specialista',
         "assets/Immagini_CareCrafter/ChattaConSpecialista.png", () {
-<<<<<<< HEAD
-      Navigator.push(
-=======
      Navigator.push(
->>>>>>> 60c893fa2738a58b23594aa986d0e66799b0606a
         context,
         MaterialPageRoute(builder: (context) => Specialista()),
       );
