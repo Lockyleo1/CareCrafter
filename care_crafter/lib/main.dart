@@ -1,5 +1,6 @@
 import 'package:care_crafter/screens/PetHomePage.dart';
 import 'package:care_crafter/screens/appointments.dart';
+import 'package:care_crafter/screens/specialista.dart';
 import 'package:care_crafter/widgets/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -143,7 +144,10 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
   Widget _buildChatWithSpecialistButton() {
     return _buildSquareButton('Chatta con uno specialista',
         "assets/Immagini_CareCrafter/ChattaConSpecialista.png", () {
-      print('Chat with Specialist Button clicked');
+     Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Specialista()),
+      );
     });
   }
 
