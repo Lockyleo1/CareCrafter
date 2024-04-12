@@ -37,7 +37,7 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
         child: AppBar(
           elevation: 0,
           toolbarHeight: 60,
-          backgroundColor: Color(0xFF58E4FF),
+          backgroundColor: Color.fromRGBO(200, 230, 255, 1),
           leading: Padding(
             padding: EdgeInsets.all(4.0),
             child: Container(
@@ -51,7 +51,9 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
             ),
           ),
           actions: [
-            Spacer(flex: 5,),
+            Spacer(
+              flex: 5,
+            ),
             Text(
               'Ciao Gianluca',
               style: TextStyle(
@@ -59,9 +61,8 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
                 fontSize: 27,
                 fontWeight: FontWeight.bold,
                 decoration: TextDecoration.underline,
-                decorationColor:Color.fromARGB(255, 5, 37, 246),
-                decorationThickness:
-                    1.5, 
+                decorationColor: Color.fromARGB(255, 5, 37, 246),
+                decorationThickness: 1.5,
               ),
             ),
             Spacer(),
@@ -109,43 +110,91 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
       },
       children: [
         ExpansionPanel(
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Menù',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ],
-              ),
-            );
-          },
-          body: Column(
+            headerBuilder: (BuildContext context, bool isExpanded) {
+              return Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Menù',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
+                ),
+              );
+            },
+            body: Container(
+          decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: Colors.black, width: 1)),
+          ),
+          child: Column(
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildRoundedButton('Vaccini', () {
-                    print('Vaccines Button clicked');
-                  }),
-                  SizedBox(width: 25),
-                  _buildRoundedButton('Farmaci da ritirare', () {
-                    print('Medicines Button clicked');
-                  }),
-                ],
-              ),
-              SizedBox(height: 5),
-              _buildRoundedButton('Trova un Dottore', () {
-                print('SearchDoctor Button clicked');
+              _buildExtendedButton('Vaccini', Icons.vaccines_outlined, () {
+                print('Vaccines Button clicked');
+              }),
+              SizedBox(height: 10),
+              _buildExtendedButton('Farmaci da ritirare', Icons.add_shopping_cart, () {
+                print('Medicines Button clicked');
+              }),
+              SizedBox(height: 10),
+              _buildExtendedButton('Trova le farmacie', Icons.medical_services, () {
+                print('Find Pharmacies Button clicked');
               }),
             ],
           ),
-          isExpanded: _isExpanded,
         ),
-      ],
+        isExpanded: _isExpanded,
+      ),
+    ],
+  );
+}
+
+  Widget _buildExtendedButton(
+      String text, IconData iconData, VoidCallback onPressed) {
+    return Container(
+      margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        border: Border(bottom: BorderSide(color: Colors.blue)),
+        color: Color.fromRGBO(200, 230, 255, 1),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(8),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Row(
+              children: [
+                Icon(
+                  iconData,
+                  size: 24,
+                  color: Colors.black,
+                ),
+                SizedBox(width: 10),
+                Text(
+                  text,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -192,7 +241,7 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
   Widget _buildSquareButton(
       String text, String iconData, VoidCallback onPressed) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         color: Colors.white,
@@ -246,12 +295,12 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          foregroundColor: Color.fromARGB(255, 5, 37, 246),
+          foregroundColor: Color.fromARGB(255, 37, 41, 255),
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
             side: BorderSide(
-              color: Color.fromARGB(255, 5, 37, 246),
+              color: Color.fromARGB(255, 0, 0, 0),
               width: 1,
             ),
           ),
@@ -260,7 +309,7 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
         child: Text(
           text,
           style: TextStyle(
-            color: Color.fromARGB(255, 5, 37, 246),
+            color: Color.fromARGB(255, 2, 2, 2),
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
