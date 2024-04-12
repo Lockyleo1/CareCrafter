@@ -31,7 +31,7 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   Future<void> _fetchNearbyPharmacies(double lat, double lng) async {
-    final apiKey = 'AIzaSyB1ioL0uyegQCxWVHchU8suDD-93bgG2dM'; 
+    final apiKey = 'AIzaSyB1ioL0uyegQCxWVHchU8suDD-93bgG2dM';
     final radius = 10000;
 
     final url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
@@ -86,10 +86,27 @@ class _MapScreenState extends State<MapScreen> {
                 zoom: 15,
               ),
               markers: markers,
+              circles: _buildCircles(),
             )
           : Center(
               child: CircularProgressIndicator(),
             ),
     );
+  }
+
+  Set<Circle> _buildCircles() {
+    return currentPosition != null
+        ? Set.from([
+            Circle(
+              circleId: CircleId('Current Location Circle'),
+              center:
+                  LatLng(currentPosition!.latitude, currentPosition!.longitude),
+              radius: 100,
+              fillColor: Colors.blue.withOpacity(0.3),
+              strokeColor: Colors.blue,
+              strokeWidth: 2,
+            ),
+          ])
+        : Set();
   }
 }

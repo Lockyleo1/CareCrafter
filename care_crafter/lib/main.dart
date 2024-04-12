@@ -175,10 +175,7 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
           backgroundColor: Color(0xFF58E4FF),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25.0),
-            side: BorderSide(
-                width: 1,
-                color:
-                    Color.fromARGB(255, 5, 37, 246)), // Aggiungi il bordo qui
+            side: BorderSide(width: 1, color: Color.fromARGB(255, 5, 37, 246)),
           ),
         ),
         onPressed: onPressed,
