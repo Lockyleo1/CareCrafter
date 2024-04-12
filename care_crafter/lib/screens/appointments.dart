@@ -24,10 +24,6 @@ class _AppointmentsState extends State<Appointments> {
   List<String> locations = [];
   List<String> appointmentTitles = [];
 
-  String? _selectedDoctor;
-  String? _selectedLocation;
-  String? _selectedAppointmentTitle;
-
   @override
   void initState() {
     super.initState();
@@ -88,9 +84,9 @@ class _AppointmentsState extends State<Appointments> {
           showDialog(
             context: context,
             builder: (context) {
-              _selectedDoctor = null;
-              _selectedLocation = null;
-              _selectedAppointmentTitle = null;
+              String? _selectedDoctor = null;
+              String? _selectedLocation = null;
+              String? _selectedAppointmentTitle = null;
               _eventController.clear();
 
               return AlertDialog(
@@ -177,12 +173,27 @@ class _AppointmentsState extends State<Appointments> {
                               _selectedDay!,
                               (value) => [
                                 ...value,
+<<<<<<< HEAD
                                 Event(_selectedAppointmentTitle!,
                                     selectedDateTime)
                               ],
                               ifAbsent: () => [
                                 Event(_selectedAppointmentTitle!,
                                     selectedDateTime)
+=======
+                                Event(
+                                    _selectedAppointmentTitle!,
+                                    selectedDateTime,
+                                    _selectedDoctor!,
+                                    _selectedLocation!)
+                              ],
+                              ifAbsent: () => [
+                                Event(
+                                    _selectedAppointmentTitle!,
+                                    selectedDateTime,
+                                    _selectedDoctor!,
+                                    _selectedLocation!)
+>>>>>>> calendar
                               ],
                             );
                             _selectedEvents.value =
@@ -200,6 +211,7 @@ class _AppointmentsState extends State<Appointments> {
           );
         },
         child: Icon(Icons.add),
+        mini: true,
       ),
       bottomNavigationBar: CustomBottomNavigationBar(),
       body: ListView(
@@ -266,8 +278,13 @@ class _AppointmentsState extends State<Appointments> {
                                         'Data: ${DateFormat('dd/MM/yyyy').format(value[index].dateTime!)}'),
                                     Text(
                                         'Ora: ${DateFormat('HH:mm').format(value[index].dateTime!)}'),
+<<<<<<< HEAD
                                     Text('Dottore: $_selectedDoctor'),
                                     Text('Sede: $_selectedLocation'),
+=======
+                                    Text('Dottore: ${value[index].doctor}'),
+                                    Text('Sede: ${value[index].location}'),
+>>>>>>> calendar
                                   ],
                                 ),
                                 trailing: Row(
@@ -332,8 +349,13 @@ class _AppointmentsState extends State<Appointments> {
                               'Data: ${DateFormat('dd/MM/yyyy').format(appointment.dateTime!)}'),
                           Text(
                               'Ora: ${DateFormat('HH:mm').format(appointment.dateTime!)}'),
+<<<<<<< HEAD
                           Text('Dottore: $_selectedDoctor'),
                           Text('Sede: $_selectedLocation'),
+=======
+                          Text('Dottore: ${appointment.doctor}'),
+                          Text('Sede: ${appointment.location}'),
+>>>>>>> calendar
                         ],
                       ),
                       trailing: Row(
@@ -376,7 +398,13 @@ class _AppointmentsState extends State<Appointments> {
 
   void _editAppointment(BuildContext context, Event event) {
     DateTime selectedDateTime = event.dateTime!;
+<<<<<<< HEAD
     _selectedAppointmentTitle = event.title;
+=======
+    String? _selectedAppointmentTitle = event.title;
+    String? _selectedDoctor = event.doctor;
+    String? _selectedLocation = event.location;
+>>>>>>> calendar
 
     showDialog(
       context: context,
@@ -481,6 +509,8 @@ class _AppointmentsState extends State<Appointments> {
                   setState(() {
                     event.title = _selectedAppointmentTitle!;
                     event.dateTime = selectedDateTime;
+                    event.doctor = _selectedDoctor!;
+                    event.location = _selectedLocation!;
                   });
                   Navigator.of(context).pop();
                 },
@@ -495,7 +525,9 @@ class _AppointmentsState extends State<Appointments> {
 
   void _deleteAppointment(Event event) {
     setState(() {
-      events[_selectedDay!]!.remove(event);
+      events.forEach((day, eventsList) {
+        eventsList.removeWhere((e) => e == event);
+      });
     });
   }
 }
