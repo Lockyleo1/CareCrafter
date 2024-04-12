@@ -10,21 +10,21 @@ class CustomBottomNavigationBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           IconButton(
-            icon: Icon(Icons.account_circle),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AccountScreen()),
-              );
-            },
-          ),
-          SizedBox(width: 20),
-          IconButton(
             icon: Icon(Icons.home),
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => MyApp()),
+              );
+            },
+          ),
+          SizedBox(width: 20),
+          IconButton(
+            icon: Icon(Icons.account_circle),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AccountScreen()),
               );
             },
           ),

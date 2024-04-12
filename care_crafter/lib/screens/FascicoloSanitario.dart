@@ -32,7 +32,8 @@ class HealthRecordPage extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePageCareCrafter()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => HomePageCareCrafter()));
           },
         ),
         title: Text('Fascicolo Sanitario'),
@@ -44,8 +45,7 @@ class HealthRecordPage extends StatelessWidget {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
-              child:
-                  CircularProgressIndicator(), 
+              child: CircularProgressIndicator(),
             );
           }
 
@@ -60,9 +60,7 @@ class HealthRecordPage extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
                       border: Border(
-                        bottom: BorderSide(
-                            color: Colors.black,
-                            width: 1), 
+                        bottom: BorderSide(color: Colors.black, width: 1),
                       ),
                     ),
                     child: Row(
@@ -81,13 +79,11 @@ class HealthRecordPage extends StatelessWidget {
                                 healthRecords[index]['date'],
                                 style: TextStyle(color: Colors.black),
                               ),
-                              SizedBox(
-                                  height: 4), 
+                              SizedBox(height: 4),
                               Text(
                                 '2023',
                                 style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 12), 
+                                    color: Colors.black, fontSize: 12),
                               ),
                             ],
                           ),
@@ -109,10 +105,10 @@ class HealthRecordPage extends StatelessWidget {
                           icon: Icon(Icons.visibility),
                           onPressed: () {
                             Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PdfViewPage()),
-                            );
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        PdfViewPage()));
                           },
                         ),
                       ],

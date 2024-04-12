@@ -1,3 +1,4 @@
+import 'package:care_crafter/screens/FascicoloSanitario.dart';
 import 'package:care_crafter/screens/PetHomePage.dart';
 import 'package:care_crafter/screens/appointments.dart';
 import 'package:care_crafter/widgets/custom_bottom_navigation_bar.dart';
@@ -136,7 +137,10 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
   Widget _buildHealthRecordButton() {
     return _buildSquareButton('Fascicolo Sanitario',
         "assets/Immagini_CareCrafter/FascicoloElettronico.png", () {
-      print('HealthRecord Button clicked');
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => FascicoloElettronico()),
+      );
     });
   }
 

@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(PdfViewPage());
+}
 
 class PdfViewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('PDF View'),
-      ),
-      body: PDFView(
-        filePath: 'assets/Vaccino.pdf',
-        autoSpacing: true,
-        enableSwipe: true,
-        pageSnap: true,
-        swipeHorizontal: true,
-        nightMode: false,
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('PDF Viewer'),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ),
+        body: SfPdfViewer.asset('assets/Vaccino.pdf'),
       ),
     );
   }
