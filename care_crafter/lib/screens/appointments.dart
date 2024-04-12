@@ -173,14 +173,6 @@ class _AppointmentsState extends State<Appointments> {
                               _selectedDay!,
                               (value) => [
                                 ...value,
-<<<<<<< HEAD
-                                Event(_selectedAppointmentTitle!,
-                                    selectedDateTime)
-                              ],
-                              ifAbsent: () => [
-                                Event(_selectedAppointmentTitle!,
-                                    selectedDateTime)
-=======
                                 Event(
                                     _selectedAppointmentTitle!,
                                     selectedDateTime,
@@ -193,7 +185,6 @@ class _AppointmentsState extends State<Appointments> {
                                     selectedDateTime,
                                     _selectedDoctor!,
                                     _selectedLocation!)
->>>>>>> calendar
                               ],
                             );
                             _selectedEvents.value =
@@ -278,13 +269,8 @@ class _AppointmentsState extends State<Appointments> {
                                         'Data: ${DateFormat('dd/MM/yyyy').format(value[index].dateTime!)}'),
                                     Text(
                                         'Ora: ${DateFormat('HH:mm').format(value[index].dateTime!)}'),
-<<<<<<< HEAD
-                                    Text('Dottore: $_selectedDoctor'),
-                                    Text('Sede: $_selectedLocation'),
-=======
                                     Text('Dottore: ${value[index].doctor}'),
                                     Text('Sede: ${value[index].location}'),
->>>>>>> calendar
                                   ],
                                 ),
                                 trailing: Row(
@@ -349,13 +335,8 @@ class _AppointmentsState extends State<Appointments> {
                               'Data: ${DateFormat('dd/MM/yyyy').format(appointment.dateTime!)}'),
                           Text(
                               'Ora: ${DateFormat('HH:mm').format(appointment.dateTime!)}'),
-<<<<<<< HEAD
-                          Text('Dottore: $_selectedDoctor'),
-                          Text('Sede: $_selectedLocation'),
-=======
                           Text('Dottore: ${appointment.doctor}'),
                           Text('Sede: ${appointment.location}'),
->>>>>>> calendar
                         ],
                       ),
                       trailing: Row(
@@ -398,13 +379,9 @@ class _AppointmentsState extends State<Appointments> {
 
   void _editAppointment(BuildContext context, Event event) {
     DateTime selectedDateTime = event.dateTime!;
-<<<<<<< HEAD
-    _selectedAppointmentTitle = event.title;
-=======
     String? _selectedAppointmentTitle = event.title;
     String? _selectedDoctor = event.doctor;
     String? _selectedLocation = event.location;
->>>>>>> calendar
 
     showDialog(
       context: context,
