@@ -1,7 +1,13 @@
+import 'dart:io';
 import 'package:care_crafter/widgets/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 class PetFSE extends StatelessWidget {
+  final String userName;
+  final String userImage;
+
+  PetFSE({required this.userName, required this.userImage});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,12 +19,18 @@ class PetFSE extends StatelessWidget {
               Navigator.of(context).pop();
             },
           ),
-          title: Text(
-            'Pet FSE',
-            style: TextStyle(color: Colors.black),
+          title: Text(userName),
+          actions: <Widget>[
+            Container(
+              child: CircleAvatar(
+            radius: 70.0,
+            backgroundImage:
+                _getImageProvider(userImage),
           ),
-          centerTitle: true,
+            ),
+          ],
           backgroundColor: Colors.white,
+          elevation: 0,
         ),
         body: Stack(
           children: [
@@ -126,5 +138,13 @@ class PetFSE extends StatelessWidget {
       bottomNavigationBar: CustomBottomNavigationBar(),
       ),
     );
+  }
+
+  ImageProvider<Object> _getImageProvider(String imagePath) {
+    if (imagePath.contains("assets")) {
+      return AssetImage(imagePath);
+    } else {
+      return FileImage(File(imagePath));
+    }
   }
 }

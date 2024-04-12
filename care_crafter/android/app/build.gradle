@@ -24,11 +24,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.example.care_crafter"
-<<<<<<< HEAD
-    compileSdkVersion 34
-=======
     compileSdk 34
->>>>>>> 60c893fa2738a58b23594aa986d0e66799b0606a
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -45,17 +41,6 @@ android {
     }
 
     defaultConfig {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-    applicationId "com.example.care_crafter"
-    minSdkVersion 20
-    targetSdkVersion flutter.targetSdkVersion
-    versionCode flutterVersionCode.toInteger()
-    versionName flutterVersionName
-}
-=======
->>>>>>> 60c893fa2738a58b23594aa986d0e66799b0606a
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.care_crafter"
         // You can update the following values to match your application needs.
@@ -67,14 +52,10 @@ android {
         versionName flutterVersionName
     }
 
-<<<<<<< HEAD
-=======
->>>>>>> 908abad89c630a2035b11aa22a7550b4bc874e5f
->>>>>>> 60c893fa2738a58b23594aa986d0e66799b0606a
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
+            // Signing with the debug keys for now, so flutter run --release works.
             signingConfig signingConfigs.debug
         }
     }
@@ -84,4 +65,4 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {}
