@@ -75,11 +75,13 @@ Neurologo:
 
     formicolii:
 
+        Buongiorno
+
         Da un po' di tempo ho avuto dei formicolii persistenti nelle mani e nei piedi. Potrebbe essere qualcosa di serio?
 
         Si manifestano soprattutto di notte, e talvolta mi svegliano. Non sembrano essere associati a dolore, ma mi preoccupa che siano così persistenti.
 
-        Grazie per il consiglio, MedicoBase. Mi recherò dal neurologo per una valutazione.
+        Grazie per il consiglio, dottore. Mi recherò dal neurologo per una valutazione.
 
 
 Ortopedico:
