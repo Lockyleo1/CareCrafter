@@ -4,7 +4,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
-        android:label="care_crafter"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <meta-data
@@ -24,8 +23,14 @@
                  to determine the Window background behind the Flutter UI. -->
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
+<<<<<<< HEAD
               android:resource="@style/NormalTheme"/>
         <!-- Specifica il tema predefinito per l'Activity -->
+=======
+              android:resource="@style/NormalTheme"
+              />
+              
+>>>>>>> 908abad89c630a2035b11aa22a7550b4bc874e5f
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
