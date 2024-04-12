@@ -1,7 +1,7 @@
 name: care_crafter
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
-# pub.dev using `flutter pub publish`. This is preferred for private packages.
+# pub.dev using flutter pub publish. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
@@ -24,30 +24,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-<<<<<<< HEAD
   table_calendar: ^3.1.0
   cupertino_icons: ^1.0.6
   flutter_pdfview: ^1.3.2
   image_picker: ^0.8.4+2
   kommunicate_flutter: any
-  google_maps_flutter: ^2.0.10
-  geolocator: ^9.0.1
-=======
-<<<<<<< HEAD
-  google_maps_flutter: ^2.2.0
-  cupertino_icons: ^1.0.6
-  flutter_pdfview: ^1.3.2
-  image_picker: ^0.8.4+2
-  geolocator: ^9.0.0
-=======
-  table_calendar: ^3.1.0
-  cupertino_icons: ^1.0.6
-  flutter_pdfview: ^1.3.2
-  image_picker: ^0.8.4+2
-  kommunicate_flutter: any
->>>>>>> 908abad89c630a2035b11aa22a7550b4bc874e5f
+  google_maps_flutter: ^2.0.12
+  geolocator: ^8.0.1
   
->>>>>>> 60c893fa2738a58b23594aa986d0e66799b0606a
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -98,4 +82,4 @@ flutter:
   #         weight: 700
   #
   # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+  # see https://flutter.dev/custom-fonts/#from-packages 
