@@ -110,7 +110,7 @@ class _PetCareCrafterPageState extends State<PetCareCrafterPage> {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => PetFSE()),
+          MaterialPageRoute(builder: (context) => PetFSE(userName: username, userImage: imagePath)),
         );
       },
       child: Column(
@@ -122,11 +122,9 @@ class _PetCareCrafterPageState extends State<PetCareCrafterPage> {
               border: Border.all(color: Colors.black),
               shape: BoxShape.circle,
               image: DecorationImage(
-              image: imagePath.contains("assets") == true
-                  ? AssetImage(imagePath)
-                  : (Image.file(File(imagePath)).image),
-              fit: BoxFit.cover,
-            ),
+                image: _getImageProvider(imagePath),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           SizedBox(height: 10),
@@ -141,5 +139,13 @@ class _PetCareCrafterPageState extends State<PetCareCrafterPage> {
         ],
       ),
     );
+  }
+
+  ImageProvider<Object> _getImageProvider(String imagePath) {
+    if (imagePath.contains("assets")) {
+      return AssetImage(imagePath);
+    } else {
+      return FileImage(File(imagePath));
+    }
   }
 }
