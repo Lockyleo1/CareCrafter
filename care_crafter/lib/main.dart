@@ -1,3 +1,4 @@
+import 'package:care_crafter/screens/MapScreen.dart';
 import 'package:care_crafter/screens/PetHomePage.dart';
 import 'package:flutter/material.dart';
 import 'widgets/custom_bottom_navigation_bar.dart';
@@ -119,8 +120,11 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
                 ],
               ),
               SizedBox(height: 5),
-              _buildRoundedButton('Trova un Dottore', () {
-                print('SearchDoctor Button clicked');
+              _buildRoundedButton('Trova una Farmacia', () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MapScreen()),
+                );
               }),
             ],
           ),
