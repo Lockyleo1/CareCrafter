@@ -1,15 +1,9 @@
 import 'package:care_crafter/main.dart';
 import 'package:care_crafter/widgets/PdfViewPage.dart';
 import 'package:care_crafter/widgets/custom_bottom_navigation_bar.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'dart:convert';
-
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  runApp(FascicoloElettronico());
-}
 
 class FascicoloElettronico extends StatelessWidget {
   @override
@@ -31,93 +25,82 @@ class HealthRecordPage extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => HomePageCareCrafter()));
-          },
-        ),
+           onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomePageCareCrafter()),
+            );
+           }),
         title: Text('Fascicolo Sanitario'),
         centerTitle: true,
       ),
       body: FutureBuilder(
-        future:
-            DefaultAssetBundle.of(context).loadString('assets/referti.json'),
+        future: DefaultAssetBundle.of(context).loadString('assets/referti.json'),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: CircularProgressIndicator(),
             );
-          }
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('Errore nel caricamento dei dati'),
+            );
+          } else {
+            var healthRecords = json.decode(snapshot.data.toString());
 
-          var healthRecords = json.decode(snapshot.data.toString());
-
-          return ListView.builder(
-            itemCount: healthRecords == null ? 0 : healthRecords.length,
-            itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            return ListView.separated(
+              itemCount: healthRecords.length,
+              separatorBuilder: (BuildContext context, int index) => Divider(),
+              itemBuilder: (context, index) {
+                return ListTile(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  leading: Container(
+                    width: 70,
+                    height: 70,
                     decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(color: Colors.black, width: 1),
-                      ),
+                      color: Color(0xFF58E4FF),
+                      border: Border.all(color: Color(0xFF1C448E)),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 70,
-                          height: 70,
-                          decoration: BoxDecoration(
-                            color: Color(0xFF58E4FF),
-                            border: Border.all(color: Color(0xFF1C448E)),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                healthRecords[index]['date'],
-                                style: TextStyle(color: Colors.black),
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                '2023',
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 12),
-                              ),
-                            ],
-                          ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          healthRecords[index]['date'],
+                          style: TextStyle(color: Colors.black),
                         ),
-                        SizedBox(width: 8), // Spazio tra la data e l'icona
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                healthRecords[index]['title'],
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              Text(healthRecords[index]['subtitle']),
-                            ],
+                        SizedBox(height: 4),
+                        Text(
+                          '2023',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
                           ),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.visibility),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        PdfViewPage()));
-                          },
                         ),
                       ],
                     ),
                   ),
-                ],
-              );
-            },
-          );
+                  title: Text(
+                    healthRecords[index]['title'],
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Text(healthRecords[index]['subtitle']),
+                  trailing: IconButton(
+                    icon: Icon(Icons.visibility),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => PdfViewPage()),
+                      );
+                    },
+                  ),
+                );
+              },
+            );
+          }
         },
       ),
       bottomNavigationBar: CustomBottomNavigationBar(),

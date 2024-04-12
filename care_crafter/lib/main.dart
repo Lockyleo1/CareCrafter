@@ -1,9 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:care_crafter/screens/FascicoloSanitario.dart';
 import 'package:care_crafter/screens/PetHomePage.dart';
 import 'package:care_crafter/screens/appointments.dart';
 import 'package:care_crafter/screens/specialista.dart';
 import 'package:care_crafter/widgets/custom_bottom_navigation_bar.dart';
-import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'models/event.dart';
 
@@ -51,6 +51,20 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
             ),
           ),
           actions: [
+            Spacer(flex: 5,),
+            Text(
+              'Ciao Gianluca',
+              style: TextStyle(
+                color: Color.fromRGBO(37, 1, 199, 1),
+                fontSize: 27,
+                fontWeight: FontWeight.bold,
+                decoration: TextDecoration.underline,
+                decorationColor:Color.fromARGB(255, 5, 37, 246),
+                decorationThickness:
+                    1.5, 
+              ),
+            ),
+            Spacer(),
             Padding(
               padding: EdgeInsets.all(0),
               child: Container(
@@ -148,7 +162,7 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
   Widget _buildChatWithSpecialistButton() {
     return _buildSquareButton('Chatta con uno specialista',
         "assets/Immagini_CareCrafter/ChattaConSpecialista.png", () {
-     Navigator.push(
+      Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => Specialista()),
       );
@@ -178,49 +192,47 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
   Widget _buildSquareButton(
       String text, String iconData, VoidCallback onPressed) {
     return Container(
-      height: 200,
-      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Color(0xFF58E4FF),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25.0),
-            side: BorderSide(
-                width: 1,
-                color:
-                    Color.fromARGB(255, 5, 37, 246)), // Aggiungi il bordo qui
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
           ),
-        ),
-        onPressed: onPressed,
-        child: Row(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.all(5),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Image.asset(
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(15),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Image.asset(
                   iconData,
-                  width: 100,
-                  height: 100,
+                  width: 60,
+                  height: 60,
                   color: Colors.black,
                 ),
-              ),
-            ),
-            SizedBox(width: 10),
-            Expanded(
-              child: Center(
-                child: Text(
+                Text(
                   text,
-                  textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 18,
-                    fontWeight: FontWeight.normal,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-            )
-          ],
+                SizedBox(width: 20),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -229,24 +241,29 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
   Widget _buildRoundedButton(String text, VoidCallback onPressed) {
     return Container(
       width: 180,
-      height: 70,
-      padding: EdgeInsets.symmetric(vertical: 10),
+      height: 50,
+      margin: EdgeInsets.symmetric(vertical: 10),
       child: ElevatedButton(
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           foregroundColor: Color.fromARGB(255, 5, 37, 246),
+          backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
+            borderRadius: BorderRadius.circular(30),
             side: BorderSide(
-                width: 1,
-                color:
-                    Color.fromARGB(255, 5, 37, 246)), // Aggiungi il bordo qui
+              color: Color.fromARGB(255, 5, 37, 246),
+              width: 1,
+            ),
           ),
-          backgroundColor: Color(0xFF58E4FF),
+          padding: EdgeInsets.symmetric(vertical: 10),
         ),
-        onPressed: onPressed,
         child: Text(
           text,
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(
+            color: Color.fromARGB(255, 5, 37, 246),
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
