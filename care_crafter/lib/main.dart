@@ -4,6 +4,7 @@ import 'package:care_crafter/screens/PetHomePage.dart';
 import 'package:care_crafter/screens/appointments.dart';
 import 'package:care_crafter/screens/specialista.dart';
 import 'package:care_crafter/widgets/custom_bottom_navigation_bar.dart';
+import 'package:flutter/widgets.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'models/event.dart';
 
@@ -110,45 +111,47 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
       },
       children: [
         ExpansionPanel(
-            headerBuilder: (BuildContext context, bool isExpanded) {
-              return Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Menù',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ],
-                ),
-              );
-            },
-            body: Container(
-          decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(color: Colors.black, width: 1)),
+          headerBuilder: (BuildContext context, bool isExpanded) {
+            return Container(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Menù',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
+            );
+          },
+          body: Container(
+            decoration: BoxDecoration(
+              border: Border(bottom: BorderSide(color: Colors.black, width: 1)),
+            ),
+            child: Column(
+              children: <Widget>[
+                _buildExtendedButton('Vaccini', Icons.vaccines_outlined, () {
+                  print('Vaccines Button clicked');
+                }),
+                SizedBox(height: 10),
+                _buildExtendedButton(
+                    'Farmaci da ritirare', Icons.add_shopping_cart, () {
+                  print('Medicines Button clicked');
+                }),
+                SizedBox(height: 10),
+                _buildExtendedButton(
+                    'Trova le farmacie', Icons.medical_services, () {
+                  print('Find Pharmacies Button clicked');
+                }),
+              ],
+            ),
           ),
-          child: Column(
-            children: <Widget>[
-              _buildExtendedButton('Vaccini', Icons.vaccines_outlined, () {
-                print('Vaccines Button clicked');
-              }),
-              SizedBox(height: 10),
-              _buildExtendedButton('Farmaci da ritirare', Icons.add_shopping_cart, () {
-                print('Medicines Button clicked');
-              }),
-              SizedBox(height: 10),
-              _buildExtendedButton('Trova le farmacie', Icons.medical_services, () {
-                print('Find Pharmacies Button clicked');
-              }),
-            ],
-          ),
+          isExpanded: _isExpanded,
         ),
-        isExpanded: _isExpanded,
-      ),
-    ],
-  );
-}
+      ],
+    );
+  }
 
   Widget _buildExtendedButton(
       String text, IconData iconData, VoidCallback onPressed) {
@@ -182,14 +185,20 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
                   color: Colors.black,
                 ),
                 SizedBox(width: 10),
-                Text(
-                  text,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                Expanded(
+                  child: Text(
+                    text,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
+                SizedBox(
+                    width:
+                        24),
               ],
             ),
           ),
