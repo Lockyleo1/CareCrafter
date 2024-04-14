@@ -1,10 +1,23 @@
 import 'dart:convert' show json;
-import 'package:care_crafter/widgets/custom_bottom_navigation_bar.dart';
+import 'package:care_crafter/models/event.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:care_crafter/models/event.dart';
 import 'package:intl/intl.dart';
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Appointments(),
+    );
+  }
+}
 
 class Appointments extends StatefulWidget {
   const Appointments({Key? key});
@@ -23,6 +36,14 @@ class _AppointmentsState extends State<Appointments> {
   List<String> doctors = [];
   List<String> locations = [];
   List<String> appointmentTitles = [];
+  List<String> specializations = [];
+  List<String> availableTimes = [];
+  Map<String, dynamic> doctorData = {};
+
+  String? _selectedSpecialization;
+  String? _selectedLocation;
+  String? _selectedDoctor;
+  String? _selectedTime;
 
   @override
   void initState() {
@@ -39,17 +60,28 @@ class _AppointmentsState extends State<Appointments> {
   }
 
   void loadData() async {
-    Map<String, dynamic> jsonData = await readJsonData();
+    Map<String, dynamic> specializationData =
+        await readJsonData('assets/tipovisite.json');
     setState(() {
-      doctors = List<String>.from(jsonData['doctors']);
-      locations = List<String>.from(jsonData['locations']);
-      appointmentTitles = List<String>.from(jsonData['appointmentTitles']);
+      specializations = List<String>.from(specializationData['tipovisite']);
+    });
+
+    Map<String, dynamic> locationData = await readJsonData('assets/sedi.json');
+    setState(() {
+      locations = List<String>.from(locationData['sedi']);
+    });
+
+    doctorData = await readJsonData('assets/dottori.json');
+
+    Map<String, dynamic> timeData =
+        await readJsonData('assets/oraridisponibili.json');
+    setState(() {
+      availableTimes = List<String>.from(timeData['oraridisponibili']);
     });
   }
 
-  Future<Map<String, dynamic>> readJsonData() async {
-    String data =
-        await DefaultAssetBundle.of(context).loadString('assets/data.json');
+  Future<Map<String, dynamic>> readJsonData(String path) async {
+    String data = await DefaultAssetBundle.of(context).loadString(path);
     return json.decode(data);
   }
 
@@ -57,12 +89,43 @@ class _AppointmentsState extends State<Appointments> {
     return events[day] ?? [];
   }
 
+  List<String> _getAvailableTimesForDayAndDoctor(DateTime day, String doctor) {
+    List<String> availableTimesForDoctor = List.from(availableTimes);
+
+    if (events.containsKey(day)) {
+      events[day]!.forEach((event) {
+        if (event.doctor == doctor) {
+          // Rimuovi solo l'orario dell'evento attuale
+          availableTimesForDoctor
+              .remove(DateFormat('HH:mm').format(event.dateTime!));
+        }
+      });
+    }
+
+    return availableTimesForDoctor;
+  }
+
+  bool isWeekend(DateTime day) {
+    return day.weekday == DateTime.saturday || day.weekday == DateTime.sunday;
+  }
+
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
-    if (!isSameDay(_selectedDay, selectedDay)) {
+    if (!isSameDay(_selectedDay, selectedDay) && !isWeekend(selectedDay)) {
       setState(() {
         _selectedDay = selectedDay;
         _focusedDay = focusedDay;
         _selectedEvents.value = _getEventsForDay(selectedDay);
+      });
+    }
+  }
+
+  void updateDoctorList(String? specialization) {
+    if (specialization != null) {
+      setState(() {
+        _selectedSpecialization = specialization;
+        _selectedDoctor = null;
+        // Filtra la lista dei dottori solo in base alla specializzazione selezionata
+        doctors = List<String>.from(doctorData['dottori'][specialization]);
       });
     }
   }
@@ -81,122 +144,170 @@ class _AppointmentsState extends State<Appointments> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          setState(() {
+            // Reimposta le variabili dei campi
+            _selectedSpecialization = null;
+            _selectedLocation = null;
+            _selectedDoctor = null;
+            _selectedTime = null;
+          });
           showDialog(
             context: context,
             builder: (context) {
-              String? _selectedDoctor = null;
-              String? _selectedLocation = null;
-              String? _selectedAppointmentTitle = null;
-              _eventController.clear();
+              return StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+                  return AlertDialog(
+                    scrollable: true,
+                    title: Text("Aggiungi un nuovo appuntamento"),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        DropdownButtonFormField<String>(
+                          value: _selectedSpecialization,
+                          onChanged: (value) {
+                            updateDoctorList(value);
+                            setState(() {
+                              _selectedSpecialization = value;
+                              _selectedDoctor = null;
+                              _selectedTime = null;
+                            });
+                          },
+                          items: specializations.map((specialization) {
+                            return DropdownMenuItem<String>(
+                              value: specialization,
+                              child: Text(specialization),
+                            );
+                          }).toList(),
+                          isExpanded: true,
+                          decoration: InputDecoration(
+                            labelText: 'Tipo di visita',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        SizedBox(height: 8.0),
+                        DropdownButtonFormField<String>(
+                          value: _selectedLocation,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedLocation = value;
+                              _selectedDoctor = null;
+                              _selectedTime = null;
+                            });
+                          },
+                          items: locations.map((location) {
+                            return DropdownMenuItem<String>(
+                              value: location,
+                              child: Text(location),
+                            );
+                          }).toList(),
+                          isExpanded: true,
+                          decoration: InputDecoration(
+                            labelText: 'Sede',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        SizedBox(height: 8.0),
+                        if (_selectedSpecialization != null &&
+                            _selectedLocation != null)
+                          DropdownButtonFormField<String>(
+                            value: _selectedDoctor,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedDoctor = value;
+                                _selectedTime = null;
+                              });
+                            },
+                            items: doctors.map((doctor) {
+                              return DropdownMenuItem<String>(
+                                value: doctor,
+                                child: Text(doctor),
+                              );
+                            }).toList(),
+                            isExpanded: true,
+                            decoration: InputDecoration(
+                              labelText: 'Dottore',
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                        SizedBox(height: 8.0),
+                        if (_selectedDoctor != null)
+                          DropdownButtonFormField<String>(
+                            value: _selectedTime,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedTime = value;
+                              });
+                            },
+                            items: _getAvailableTimesForDayAndDoctor(
+                                    _selectedDay!, _selectedDoctor!)
+                                .map((time) {
+                              return DropdownMenuItem<String>(
+                                value: time,
+                                child: Text(time),
+                              );
+                            }).toList(),
+                            isExpanded: true,
+                            decoration: InputDecoration(
+                              labelText: 'Orario',
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                        SizedBox(height: 8.0),
+                        ElevatedButton(
+                          onPressed: () {
+                            if (_selectedSpecialization != null &&
+                                _selectedLocation != null &&
+                                _selectedDoctor != null &&
+                                _selectedTime != null) {
+                              DateTime selectedDateTime = DateTime(
+                                _selectedDay!.year,
+                                _selectedDay!.month,
+                                _selectedDay!.day,
+                                int.parse(_selectedTime!.split(':')[0]),
+                                int.parse(_selectedTime!.split(':')[1]),
+                              );
 
-              return AlertDialog(
-                scrollable: true,
-                title: Text("Aggiungi un nuovo appuntamento"),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    DropdownButtonFormField<String>(
-                      value: _selectedAppointmentTitle,
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedAppointmentTitle = value;
-                        });
-                      },
-                      items: appointmentTitles.map((title) {
-                        return DropdownMenuItem<String>(
-                          value: title,
-                          child: Text(title),
-                        );
-                      }).toList(),
-                      isExpanded: true,
-                      decoration: InputDecoration(
-                        labelText: 'Titolo',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    SizedBox(height: 8.0),
-                    DropdownButtonFormField<String>(
-                      value: _selectedDoctor,
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedDoctor = value;
-                        });
-                      },
-                      items: doctors.map((doctor) {
-                        return DropdownMenuItem<String>(
-                          value: doctor,
-                          child: Text(doctor),
-                        );
-                      }).toList(),
-                      isExpanded: true,
-                      decoration: InputDecoration(
-                        labelText: 'Dottore',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    SizedBox(height: 8.0),
-                    DropdownButtonFormField<String>(
-                      value: _selectedLocation,
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedLocation = value;
-                        });
-                      },
-                      items: locations.map((location) {
-                        return DropdownMenuItem<String>(
-                          value: location,
-                          child: Text(location),
-                        );
-                      }).toList(),
-                      isExpanded: true,
-                      decoration: InputDecoration(
-                        labelText: 'Sede',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    SizedBox(height: 8.0),
-                    TextButton(
-                      onPressed: () {
-                        showTimePicker(
-                          context: context,
-                          initialTime: TimeOfDay.now(),
-                        ).then((selectedTime) {
-                          if (selectedTime != null) {
-                            DateTime selectedDateTime = DateTime(
-                              _selectedDay!.year,
-                              _selectedDay!.month,
-                              _selectedDay!.day,
-                              selectedTime.hour,
-                              selectedTime.minute,
-                            );
-                            events.update(
-                              _selectedDay!,
-                              (value) => [
-                                ...value,
-                                Event(
-                                    _selectedAppointmentTitle!,
+                              events.update(
+                                _selectedDay!,
+                                (value) => [
+                                  ...value,
+                                  Event(
+                                    _selectedSpecialization!,
                                     selectedDateTime,
                                     _selectedDoctor!,
-                                    _selectedLocation!)
-                              ],
-                              ifAbsent: () => [
-                                Event(
-                                    _selectedAppointmentTitle!,
+                                    _selectedLocation!,
+                                  )
+                                ],
+                                ifAbsent: () => [
+                                  Event(
+                                    _selectedSpecialization!,
                                     selectedDateTime,
                                     _selectedDoctor!,
-                                    _selectedLocation!)
-                              ],
-                            );
-                            _selectedEvents.value =
-                                _getEventsForDay(_selectedDay!);
-                            Navigator.of(context).pop();
-                          }
-                        });
-                      },
-                      child: Text('Scegli un orario'),
+                                    _selectedLocation!,
+                                  )
+                                ],
+                              );
+
+                              _selectedEvents.value =
+                                  _getEventsForDay(_selectedDay!);
+
+                              Navigator.of(context).pop();
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'Si prega di compilare tutti i campi.'),
+                                  duration: Duration(seconds: 2),
+                                ),
+                              );
+                            }
+                          },
+                          child: Text('Aggiungi'),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  );
+                },
               );
             },
           );
@@ -204,7 +315,6 @@ class _AppointmentsState extends State<Appointments> {
         child: Icon(Icons.add),
         mini: true,
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(),
       body: ListView(
         children: [
           TableCalendar(
@@ -302,66 +412,72 @@ class _AppointmentsState extends State<Appointments> {
             },
           ),
           Divider(color: Colors.black, height: 1.0),
-          Text(
-            'Prossimi appuntamenti',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          ValueListenableBuilder<List<Event>>(
-            valueListenable: _selectedEvents,
-            builder: (context, value, _) {
-              final futureAppointments = _getAllFutureAppointments();
-              futureAppointments
-                  .sort((a, b) => a.dateTime!.compareTo(b.dateTime!));
-              return ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: futureAppointments.length,
-                itemBuilder: (context, index) {
-                  final appointment = futureAppointments[index];
-                  return Container(
-                    margin:
-                        EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    child: ListTile(
-                      title: Text(appointment.title),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                              'Data: ${DateFormat('dd/MM/yyyy').format(appointment.dateTime!)}'),
-                          Text(
-                              'Ora: ${DateFormat('HH:mm').format(appointment.dateTime!)}'),
-                          Text('Dottore: ${appointment.doctor}'),
-                          Text('Sede: ${appointment.location}'),
-                        ],
+           ValueListenableBuilder<List<Event>>(
+          valueListenable: _selectedEvents,
+          builder: (context, selectedEvents, _) {
+            List<Event> allEvents = _getAllFutureAppointments();
+            allEvents.sort((a, b) => a.dateTime!.compareTo(b.dateTime!));
+            return allEvents.length > 0
+                ? Column(
+                    children: [
+                      Text(
+                        'Prossimi Appuntamenti',
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.edit),
-                            onPressed: () {
-                              _editAppointment(context, appointment);
-                            },
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.delete),
-                            onPressed: () {
-                              _deleteAppointment(appointment);
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: allEvents.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 12.0, vertical: 4.0),
+                              decoration: BoxDecoration(
+                                border: Border.all(),
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              child: ListTile(
+                                title: Text(allEvents[index].title),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                        'Data: ${DateFormat('dd/MM/yyyy').format(allEvents[index].dateTime!)}'),
+                                    Text(
+                                        'Ora: ${DateFormat('HH:mm').format(allEvents[index].dateTime!)}'),
+                                    Text('Dottore: ${allEvents[index].doctor}'),
+                                    Text('Sede: ${allEvents[index].location}'),
+                                  ],
+                                ),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(Icons.edit),
+                                      onPressed: () {
+                                        _editAppointment(context, allEvents[index]);
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.delete),
+                                      onPressed: () {
+                                        _deleteAppointment(allEvents[index]);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                    ],
+                  )
+                : Text(
+                    "Nessun appuntamento futuro",
+                    textAlign: TextAlign.center,
                   );
-                },
-              );
-            },
-          ),
+          },
+        ),
         ],
       ),
     );
@@ -370,9 +486,9 @@ class _AppointmentsState extends State<Appointments> {
   List<Event> _getAllFutureAppointments() {
     List<Event> futureAppointments = events.values
         .expand((events) => events)
-        .where((event) => event.dateTime.isAfter(DateTime.now()))
+        .where((event) => event.dateTime!.isAfter(DateTime.now()))
         .toList();
-    futureAppointments.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+    futureAppointments.sort((a, b) => a.dateTime!.compareTo(b.dateTime));
 
     return futureAppointments;
   }
@@ -382,119 +498,107 @@ class _AppointmentsState extends State<Appointments> {
     String? _selectedAppointmentTitle = event.title;
     String? _selectedDoctor = event.doctor;
     String? _selectedLocation = event.location;
+    List<String> availableTimesForDoctor =
+        _getAvailableTimesForDayAndDoctor(selectedDateTime, _selectedDoctor!);
 
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          scrollable: true,
-          title: Text("Modifica appuntamento"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              DropdownButtonFormField<String>(
-                value: _selectedAppointmentTitle,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedAppointmentTitle = value;
-                  });
-                },
-                items: appointmentTitles.map((title) {
-                  return DropdownMenuItem<String>(
-                    value: title,
-                    child: Text(title),
-                  );
-                }).toList(),
-                isExpanded: true,
-                decoration: InputDecoration(
-                  labelText: 'Titolo',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              SizedBox(height: 8.0),
-              Row(
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return AlertDialog(
+              scrollable: true,
+              title: Text("Modifica appuntamento"),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Expanded(
-                    child: Text(
-                        'Orario attuale: ${DateFormat('HH:mm').format(selectedDateTime)}'),
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      final TimeOfDay? pickedTime = await showTimePicker(
-                        context: context,
-                        initialTime: TimeOfDay.fromDateTime(selectedDateTime),
-                      );
-                      if (pickedTime != null) {
-                        setState(() {
-                          selectedDateTime = DateTime(
-                            selectedDateTime.year,
-                            selectedDateTime.month,
-                            selectedDateTime.day,
-                            pickedTime.hour,
-                            pickedTime.minute,
-                          );
-                        });
-                      }
+                  DropdownButtonFormField<String>(
+                    value: DateFormat('HH:mm').format(selectedDateTime),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedDateTime = DateTime(
+                          selectedDateTime.year,
+                          selectedDateTime.month,
+                          selectedDateTime.day,
+                          int.parse(value!.split(':')[0]),
+                          int.parse(value.split(':')[1]),
+                        );
+                      });
                     },
-                    child: Text('Cambia orario'),
+                    items: availableTimesForDoctor.map((time) {
+                      return DropdownMenuItem<String>(
+                        value: time,
+                        child: Text(time),
+                      );
+                    }).toList(),
+                    isExpanded: true,
+                    decoration: InputDecoration(
+                      labelText: 'Orario',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(height: 8.0),
+                  DropdownButtonFormField<String>(
+                    value: _selectedDoctor,
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedDoctor = value;
+                        availableTimesForDoctor =
+                            _getAvailableTimesForDayAndDoctor(
+                                selectedDateTime, _selectedDoctor!);
+                      });
+                    },
+                    items: doctors.map((doctor) {
+                      return DropdownMenuItem<String>(
+                        value: doctor,
+                        child: Text(doctor),
+                      );
+                    }).toList(),
+                    isExpanded: true,
+                    decoration: InputDecoration(
+                      labelText: 'Dottore',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(height: 8.0),
+                  DropdownButtonFormField<String>(
+                    value: _selectedLocation,
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedLocation = value;
+                      });
+                    },
+                    items: locations.map((location) {
+                      return DropdownMenuItem<String>(
+                        value: location,
+                        child: Text(location),
+                      );
+                    }).toList(),
+                    isExpanded: true,
+                    decoration: InputDecoration(
+                      labelText: 'Sede',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(height: 8.0),
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        event.title = _selectedAppointmentTitle!;
+                        event.doctor = _selectedDoctor!;
+                        event.location = _selectedLocation!;
+                        event.dateTime = selectedDateTime;
+                      });
+                      // Aggiorna _selectedEvents per riflettere le modifiche istantaneamente
+                      _selectedEvents.value = _getEventsForDay(_selectedDay!);
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Salva modifiche'),
                   ),
                 ],
               ),
-              SizedBox(height: 8.0),
-              DropdownButtonFormField<String>(
-                value: _selectedDoctor,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedDoctor = value;
-                  });
-                },
-                items: doctors.map((doctor) {
-                  return DropdownMenuItem<String>(
-                    value: doctor,
-                    child: Text(doctor),
-                  );
-                }).toList(),
-                isExpanded: true,
-                decoration: InputDecoration(
-                  labelText: 'Dottore',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              SizedBox(height: 8.0),
-              DropdownButtonFormField<String>(
-                value: _selectedLocation,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedLocation = value;
-                  });
-                },
-                items: locations.map((location) {
-                  return DropdownMenuItem<String>(
-                    value: location,
-                    child: Text(location),
-                  );
-                }).toList(),
-                isExpanded: true,
-                decoration: InputDecoration(
-                  labelText: 'Sede',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              SizedBox(height: 8.0),
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    event.title = _selectedAppointmentTitle!;
-                    event.dateTime = selectedDateTime;
-                    event.doctor = _selectedDoctor!;
-                    event.location = _selectedLocation!;
-                  });
-                  Navigator.of(context).pop();
-                },
-                child: Text('Salva modifiche'),
-              ),
-            ],
-          ),
+            );
+          },
         );
       },
     );
@@ -508,3 +612,4 @@ class _AppointmentsState extends State<Appointments> {
     });
   }
 }
+

@@ -1,0 +1,54 @@
+{
+  "dottori": {
+    "Cardiologia": [
+      "Dr. Rossi",
+      "Dr. Bianchi",
+      "Dr. Verdi"
+    ],
+    "Dermatologia": [
+      "Dr. Russo",
+      "Dr. Esposito",
+      "Dr. Moretti"
+    ],
+    "Endocrinologia": [
+      "Dr. Ferrari",
+      "Dr. Martini",
+      "Dr. Ricci"
+    ],
+    "Gastroenterologia": [
+      "Dr. Romano",
+      "Dr. Conti",
+      "Dr. Gallo"
+    ],
+    "Neurologia": [
+      "Dr. De Luca",
+      "Dr. Greco",
+      "Dr. Bruno"
+    ],
+    "Oftalmologia": [
+      "Dr. Barbieri",
+      "Dr. Marini",
+      "Dr. Gatti"
+    ],
+    "Ortopedia": [
+      "Dr. Rizzo",
+      "Dr. Lombardi",
+      "Dr. Ferri"
+    ],
+    "Pediatria": [
+      "Dr. Colombo",
+      "Dr. Santoro",
+      "Dr. Giallo"
+    ],
+    "Psichiatria": [
+      "Dr. Mancini",
+      "Dr. Sanna",
+      "Dr. Testa"
+    ],
+    "Urologia": [
+      "Dr. Pellegrini",
+      "Dr. Leoni",
+      "Dr. Messina"
+    ]
+  }
+}

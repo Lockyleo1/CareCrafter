@@ -1,3 +1,4 @@
+import 'package:care_crafter/screens/vaccini.dart';
 import 'package:flutter/material.dart';
 import 'package:care_crafter/screens/FascicoloSanitario.dart';
 import 'package:care_crafter/screens/PetHomePage.dart';
@@ -132,7 +133,11 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
             child: Column(
               children: <Widget>[
                 _buildExtendedButton('Vaccini', Icons.vaccines_outlined, () {
-                  print('Vaccines Button clicked');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Vaccini()),
+                  );
                 }),
                 SizedBox(height: 10),
                 _buildExtendedButton(
@@ -196,9 +201,7 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
                     ),
                   ),
                 ),
-                SizedBox(
-                    width:
-                        24),
+                SizedBox(width: 24),
               ],
             ),
           ),
