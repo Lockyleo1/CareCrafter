@@ -49,6 +49,11 @@
       "Dr. Pellegrini",
       "Dr. Leoni",
       "Dr. Messina"
+    ],
+    "Veterinaria": [
+      "Dr. Galli",
+      "Dr. Vanni",
+      "Dr. Vessicchio"
     ]
   }
 }

@@ -95,7 +95,6 @@ class _AppointmentsState extends State<Appointments> {
     if (events.containsKey(day)) {
       events[day]!.forEach((event) {
         if (event.doctor == doctor) {
-          // Rimuovi solo l'orario dell'evento attuale
           availableTimesForDoctor
               .remove(DateFormat('HH:mm').format(event.dateTime!));
         }
@@ -124,7 +123,6 @@ class _AppointmentsState extends State<Appointments> {
       setState(() {
         _selectedSpecialization = specialization;
         _selectedDoctor = null;
-        // Filtra la lista dei dottori solo in base alla specializzazione selezionata
         doctors = List<String>.from(doctorData['dottori'][specialization]);
       });
     }
@@ -145,7 +143,6 @@ class _AppointmentsState extends State<Appointments> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            // Reimposta le variabili dei campi
             _selectedSpecialization = null;
             _selectedLocation = null;
             _selectedDoctor = null;
@@ -412,19 +409,19 @@ class _AppointmentsState extends State<Appointments> {
             },
           ),
           Divider(color: Colors.black, height: 1.0),
-           ValueListenableBuilder<List<Event>>(
-          valueListenable: _selectedEvents,
-          builder: (context, selectedEvents, _) {
-            List<Event> allEvents = _getAllFutureAppointments();
-            allEvents.sort((a, b) => a.dateTime!.compareTo(b.dateTime!));
-            return allEvents.length > 0
-                ? Column(
-                    children: [
-                      Text(
-                        'Prossimi Appuntamenti',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      ListView.builder(
+          ValueListenableBuilder<List<Event>>(
+            valueListenable: _selectedEvents,
+            builder: (context, selectedEvents, _) {
+              List<Event> allEvents = _getAllFutureAppointments();
+              allEvents.sort((a, b) => a.dateTime!.compareTo(b.dateTime!));
+              return allEvents.length > 0
+                  ? Column(
+                      children: [
+                        Text(
+                          'Prossimi Appuntamenti',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        ListView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: allEvents.length,
@@ -470,14 +467,14 @@ class _AppointmentsState extends State<Appointments> {
                             );
                           },
                         ),
-                    ],
-                  )
-                : Text(
-                    "Nessun appuntamento futuro",
-                    textAlign: TextAlign.center,
-                  );
-          },
-        ),
+                      ],
+                    )
+                  : Text(
+                      "Nessun appuntamento futuro",
+                      textAlign: TextAlign.center,
+                    );
+            },
+          ),
         ],
       ),
     );
@@ -589,7 +586,6 @@ class _AppointmentsState extends State<Appointments> {
                         event.location = _selectedLocation!;
                         event.dateTime = selectedDateTime;
                       });
-                      // Aggiorna _selectedEvents per riflettere le modifiche istantaneamente
                       _selectedEvents.value = _getEventsForDay(_selectedDay!);
                       Navigator.of(context).pop();
                     },
@@ -612,4 +608,3 @@ class _AppointmentsState extends State<Appointments> {
     });
   }
 }
-
