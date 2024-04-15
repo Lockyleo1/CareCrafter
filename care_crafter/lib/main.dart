@@ -1,3 +1,4 @@
+import 'package:care_crafter/screens/MapScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:care_crafter/screens/FascicoloSanitario.dart';
 import 'package:care_crafter/screens/PetHomePage.dart';
@@ -51,7 +52,9 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
             ),
           ),
           actions: [
-            Spacer(flex: 5,),
+            Spacer(
+              flex: 5,
+            ),
             Text(
               'Ciao Gianluca',
               style: TextStyle(
@@ -59,9 +62,8 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
                 fontSize: 27,
                 fontWeight: FontWeight.bold,
                 decoration: TextDecoration.underline,
-                decorationColor:Color.fromARGB(255, 5, 37, 246),
-                decorationThickness:
-                    1.5, 
+                decorationColor: Color.fromARGB(255, 5, 37, 246),
+                decorationThickness: 1.5,
               ),
             ),
             Spacer(),
@@ -139,7 +141,10 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
               ),
               SizedBox(height: 5),
               _buildRoundedButton('Trova un Dottore', () {
-                print('SearchDoctor Button clicked');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MapScreen()),
+                );
               }),
             ],
           ),
