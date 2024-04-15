@@ -18,7 +18,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
               );
             },
           ),
-          SizedBox(width: 20),
           IconButton(
             icon: Icon(Icons.account_circle),
             onPressed: () {

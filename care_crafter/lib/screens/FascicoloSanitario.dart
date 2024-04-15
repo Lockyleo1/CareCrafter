@@ -61,7 +61,7 @@ class HealthRecordPage extends StatelessWidget {
                     width: 70,
                     height: 70,
                     decoration: BoxDecoration(
-                      color: Color(0xFF58E4FF),
+                      color: Color.fromRGBO(200, 230, 255, 1),
                       border: Border.all(color: Color(0xFF1C448E)),
                       borderRadius: BorderRadius.circular(10),
                     ),

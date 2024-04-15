@@ -1,6 +1,7 @@
 import 'dart:io';
-import 'package:care_crafter/widgets/custom_bottom_navigation_bar.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:care_crafter/widgets/custom_bottom_navigation_bar.dart';
 
 class PetFSE extends StatelessWidget {
   final String userName;
@@ -23,10 +24,9 @@ class PetFSE extends StatelessWidget {
           actions: <Widget>[
             Container(
               child: CircleAvatar(
-            radius: 70.0,
-            backgroundImage:
-                _getImageProvider(userImage),
-          ),
+                radius: 70.0,
+                backgroundImage: _getImageProvider(userImage),
+              ),
             ),
           ],
           backgroundColor: Colors.white,
@@ -34,12 +34,7 @@ class PetFSE extends StatelessWidget {
         ),
         body: Stack(
           children: [
-            Positioned.fill(
-              child: Image.asset(
-                'assets/Immagini_CareCrafter/fattoria.png',
-                fit: BoxFit.cover,
-              ),
-            ),
+            _buildBackgroundImage(),
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -135,12 +130,28 @@ class PetFSE extends StatelessWidget {
             ),
           ],
         ),
-      bottomNavigationBar: CustomBottomNavigationBar(),
+        bottomNavigationBar: CustomBottomNavigationBar(),
       ),
     );
   }
 
-  ImageProvider<Object> _getImageProvider(String imagePath) {
+  Widget _buildBackgroundImage() {
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/Immagini_CareCrafter/fattoria.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+        child: Container(
+          color: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.7),
+        ),
+      ),
+    );
+  }
+ImageProvider<Object> _getImageProvider(String imagePath) {
     if (imagePath.contains("assets")) {
       return AssetImage(imagePath);
     } else {
