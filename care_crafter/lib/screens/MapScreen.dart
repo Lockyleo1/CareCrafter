@@ -1,3 +1,4 @@
+import 'package:care_crafter/widgets/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -91,6 +92,7 @@ class _MapScreenState extends State<MapScreen> {
           : Center(
               child: CircularProgressIndicator(),
             ),
+      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 
@@ -101,12 +103,10 @@ class _MapScreenState extends State<MapScreen> {
               circleId: CircleId('Current Location Circle'),
               center:
                   LatLng(currentPosition!.latitude, currentPosition!.longitude),
-              radius: 100, 
-              fillColor:
-                  Colors.blue.withOpacity(0.3),
-              strokeColor:
-                  Colors.blue, 
-              strokeWidth: 2, 
+              radius: 100,
+              fillColor: Colors.blue.withOpacity(0.3),
+              strokeColor: Colors.blue,
+              strokeWidth: 2,
             ),
           ])
         : Set();
