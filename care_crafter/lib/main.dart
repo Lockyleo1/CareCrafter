@@ -140,7 +140,7 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
                 ],
               ),
               SizedBox(height: 5),
-              _buildRoundedButton('Trova un Dottore', () {
+              _buildRoundedButton('Trova una farmacia', () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => MapScreen()),
