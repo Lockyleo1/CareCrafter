@@ -164,6 +164,7 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
     });
   }
 
+
   Widget _buildChatWithSpecialistButton() {
     return _buildSquareButton('Chatta con uno specialista',
         "assets/Immagini_CareCrafter/ChattaConSpecialista.png", () {
