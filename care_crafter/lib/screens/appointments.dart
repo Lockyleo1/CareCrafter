@@ -2,6 +2,7 @@ import 'dart:convert' show json;
 import 'package:care_crafter/models/event.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
@@ -14,19 +15,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Appointments(),
+      home: Appointments(tipe:'vaccini'),
     );
   }
 }
 
 class Appointments extends StatefulWidget {
-  const Appointments({Key? key});
+  String tipe;
+
+  Appointments({required this.tipe});
 
   @override
-  State<Appointments> createState() => _AppointmentsState();
+  State<Appointments> createState() => _AppointmentsState(tipe: tipe);
 }
 
 class _AppointmentsState extends State<Appointments> {
+  String tipe;
+
+  _AppointmentsState({required this.tipe});
+
   DateTime _focusedDay = DateTime.now();
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime? _selectedDay;
@@ -60,18 +67,18 @@ class _AppointmentsState extends State<Appointments> {
   }
 
   void loadData() async {
-    Map<String, dynamic> specializationData =
-        await readJsonData('assets/tipovisite.json');
+    Map<String, dynamic> specializationData = tipe=='human' ?
+        await readJsonData('assets/tipovisite.json') : await readJsonData('assets/petvisite.json');
     setState(() {
       specializations = List<String>.from(specializationData['tipovisite']);
     });
 
-    Map<String, dynamic> locationData = await readJsonData('assets/sedi.json');
+    Map<String, dynamic> locationData = tipe == 'human' ? await readJsonData('assets/sedi.json') : await readJsonData('assets/cliniche.json') ;
     setState(() {
       locations = List<String>.from(locationData['sedi']);
     });
 
-    doctorData = await readJsonData('assets/dottori.json');
+    doctorData = tipe =='human' ? await readJsonData('assets/dottori.json') : await readJsonData('assets/veterinari.json') ;
 
     Map<String, dynamic> timeData =
         await readJsonData('assets/oraridisponibili.json');

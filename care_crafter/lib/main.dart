@@ -235,7 +235,7 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
         'Prendi appuntamento', "assets/Immagini_CareCrafter/Calendar.png", () {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => Appointments()),
+        MaterialPageRoute(builder: (context) => Appointments(tipe:'human')),
       );
     });
   }

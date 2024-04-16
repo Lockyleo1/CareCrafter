@@ -118,7 +118,7 @@ class PetFSE extends StatelessWidget {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => Appointments()),
+                              MaterialPageRoute(builder: (context) => Appointments(tipe:'pet')),
                             );
                           },
                           icon: Icon(Icons.event),

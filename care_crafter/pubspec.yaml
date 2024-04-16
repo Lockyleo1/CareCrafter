@@ -47,6 +47,9 @@ flutter:
     - assets/vaccini.json
     - assets/data.json
     - assets/sedi.json
+    - assets/cliniche.json
+    - assets/petvisite.json
+    - assets/veterinari.json
     - assets/oraridisponibili.json
     - assets/dottori.json
     - assets/tipovisite.json
