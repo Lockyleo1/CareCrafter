@@ -1,11 +1,11 @@
 import 'package:care_crafter/screens/vaccini.dart';
+import 'package:care_crafter/screens/MapScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:care_crafter/screens/FascicoloSanitario.dart';
 import 'package:care_crafter/screens/PetHomePage.dart';
 import 'package:care_crafter/screens/appointments.dart';
 import 'package:care_crafter/screens/specialista.dart';
 import 'package:care_crafter/widgets/custom_bottom_navigation_bar.dart';
-import 'package:flutter/widgets.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'models/event.dart';
 
@@ -39,7 +39,7 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
         child: AppBar(
           elevation: 0,
           toolbarHeight: 60,
-          backgroundColor: Color.fromRGBO(200, 230, 255, 1),
+          backgroundColor: Color(0xFF58E4FF),
           leading: Padding(
             padding: EdgeInsets.all(4.0),
             child: Container(
@@ -147,7 +147,10 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
                 SizedBox(height: 10),
                 _buildExtendedButton(
                     'Trova le farmacie', Icons.medical_services, () {
-                  print('Find Pharmacies Button clicked');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MapScreen()),
+                        );
                 }),
               ],
             ),
@@ -220,6 +223,7 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
     });
   }
 
+
   Widget _buildChatWithSpecialistButton() {
     return _buildSquareButton('Chatta con uno specialista',
         "assets/Immagini_CareCrafter/ChattaConSpecialista.png", () {
@@ -253,7 +257,7 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
   Widget _buildSquareButton(
       String text, String iconData, VoidCallback onPressed) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         color: Colors.white,
@@ -307,12 +311,12 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          foregroundColor: Color.fromARGB(255, 37, 41, 255),
+          foregroundColor: Color.fromARGB(255, 5, 37, 246),
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
             side: BorderSide(
-              color: Color.fromARGB(255, 0, 0, 0),
+              color: Color.fromARGB(255, 5, 37, 246),
               width: 1,
             ),
           ),
@@ -321,7 +325,7 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
         child: Text(
           text,
           style: TextStyle(
-            color: Color.fromARGB(255, 2, 2, 2),
+            color: Color.fromARGB(255, 5, 37, 246),
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),

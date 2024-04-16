@@ -50,6 +50,7 @@ android {
         versionCode flutterVersionCode.toInteger()
         multiDexEnabled true
         versionName flutterVersionName
+        minSdkVersion 20
     }
 
     buildTypes {
