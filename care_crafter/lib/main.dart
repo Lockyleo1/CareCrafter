@@ -1,3 +1,4 @@
+import 'package:care_crafter/screens/vaccini.dart';
 import 'package:care_crafter/screens/MapScreen.dart';
 import 'package:care_crafter/screens/farmaciDaRitirare.dart';
 import 'package:flutter/material.dart';
@@ -126,36 +127,93 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
               ),
             );
           },
-          body: Column(
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildRoundedButton('Vaccini', () {
-                    print('Vaccines Button clicked');
-                  }),
-                  SizedBox(width: 25),
-                  _buildRoundedButton('Farmaci da ritirare', () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => farmaciDaRitirare()),
-                    );
-                  }),
-                ],
-              ),
-              SizedBox(height: 5),
-              _buildRoundedButton('Trova una farmacia', () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MapScreen()),
-                );
-              }),
-            ],
+          body: Container(
+            decoration: BoxDecoration(
+              border: Border(bottom: BorderSide(color: Colors.black, width: 1)),
+            ),
+            child: Column(
+              children: <Widget>[
+                _buildExtendedButton('Vaccini', Icons.vaccines_outlined, () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Vaccini()),
+                  );
+                }),
+                SizedBox(height: 10),
+                _buildExtendedButton(
+                    'Farmaci da ritirare', Icons.add_shopping_cart, () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => farmaciDaRitirare()),
+                  );
+                }),
+                SizedBox(height: 10),
+                _buildExtendedButton(
+                    'Trova le farmacie', Icons.medical_services, () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MapScreen()),
+                  );
+                }),
+              ],
+            ),
           ),
           isExpanded: _isExpanded,
         ),
       ],
+    );
+  }
+
+  Widget _buildExtendedButton(
+      String text, IconData iconData, VoidCallback onPressed) {
+    return Container(
+      margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        border: Border(bottom: BorderSide(color: Colors.blue)),
+        color: Color.fromRGBO(200, 230, 255, 1),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(8),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Row(
+              children: [
+                Icon(
+                  iconData,
+                  size: 24,
+                  color: Colors.black,
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    text,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 24),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -184,7 +242,7 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
         'Prendi appuntamento', "assets/Immagini_CareCrafter/Calendar.png", () {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => Appointments()),
+        MaterialPageRoute(builder: (context) => Appointments(tipe: 'human')),
       );
     });
   }

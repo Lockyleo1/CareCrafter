@@ -14,12 +14,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: FascicoloElettronico(),
+      home: Vaccini(),
     );
   }
 }
 
-class FascicoloElettronico extends StatelessWidget {
+class Vaccini extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -45,11 +45,11 @@ class HealthRecordPage extends StatelessWidget {
               MaterialPageRoute(builder: (context) => HomePageCareCrafter()),
             );
            }),
-        title: Text('Fascicolo Sanitario'),
+        title: Text('Vaccini'),
         centerTitle: true,
       ),
       body: FutureBuilder(
-        future: DefaultAssetBundle.of(context).loadString('assets/referti.json'),
+        future: DefaultAssetBundle.of(context).loadString('assets/vaccini.json'),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(

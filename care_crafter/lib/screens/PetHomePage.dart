@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:care_crafter/main.dart';
 import 'package:care_crafter/screens/petFSE.dart';
 import 'package:care_crafter/widgets/addPet.dart';
 import 'package:care_crafter/widgets/custom_bottom_navigation_bar.dart';
@@ -22,6 +23,14 @@ class _PetCareCrafterPageState extends State<PetCareCrafterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+           onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomePageCareCrafter()),
+            );
+           }),
         title: Text('PetCareCrafter'),
         centerTitle: true,
       ),

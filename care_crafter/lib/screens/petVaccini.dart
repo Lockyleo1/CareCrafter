@@ -1,4 +1,6 @@
 import 'package:care_crafter/main.dart';
+import 'package:care_crafter/screens/PetHomePage.dart';
+import 'package:care_crafter/screens/petFSE.dart';
 import 'package:care_crafter/widgets/PdfViewPage.dart';
 import 'package:care_crafter/widgets/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +16,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: FascicoloElettronico(),
+      home: PetVaccini(userName: 'Mowgly',userImage: 'assets/Immagini_CareCrafter/Mowgly.png'),
     );
   }
 }
 
-class FascicoloElettronico extends StatelessWidget {
+class PetVaccini extends StatelessWidget {
+
+  final String userName;
+  final String userImage;
+
+  PetVaccini({required this.userName, required this.userImage});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,12 +35,17 @@ class FascicoloElettronico extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HealthRecordPage(),
+      home: HealthRecordPage(userName: userName,userImage: userImage,),
     );
   }
 }
 
 class HealthRecordPage extends StatelessWidget {
+  final String userName;
+  final String userImage;
+
+  HealthRecordPage({required this.userName, required this.userImage});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,14 +55,17 @@ class HealthRecordPage extends StatelessWidget {
            onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => HomePageCareCrafter()),
-            );
+              MaterialPageRoute(
+                builder: (context) => PetFSE(userName:userName, userImage:userImage),
+      ),
+    );
+
            }),
-        title: Text('Fascicolo Sanitario'),
+        title: Text('PetVaccini'),
         centerTitle: true,
       ),
       body: FutureBuilder(
-        future: DefaultAssetBundle.of(context).loadString('assets/referti.json'),
+        future: DefaultAssetBundle.of(context).loadString('assets/PetVaccini.json'),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -75,8 +91,8 @@ class HealthRecordPage extends StatelessWidget {
                     width: 70,
                     height: 70,
                     decoration: BoxDecoration(
-                      color: Color.fromRGBO(200, 230, 255, 1),
-                      border: Border.all(color: Color(0xFF1C448E)),
+                      color: Color(0xFFAED581) ,
+                      border: Border.all(color:Color(0xFF2C5D39)),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Column(

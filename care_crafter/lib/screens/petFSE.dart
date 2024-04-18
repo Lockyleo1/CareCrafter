@@ -1,5 +1,8 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:care_crafter/screens/PetHomePage.dart';
+import 'package:care_crafter/screens/appointments.dart';
+import 'package:care_crafter/screens/petVaccini.dart';
 import 'package:flutter/material.dart';
 import 'package:care_crafter/widgets/custom_bottom_navigation_bar.dart';
 
@@ -17,7 +20,10 @@ class PetFSE extends StatelessWidget {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PetCareCrafterPage()),
+              );
             },
           ),
           title: Text(userName),
@@ -58,7 +64,12 @@ class PetFSE extends StatelessWidget {
                       SizedBox(
                         width: 250,
                         child: TextButton.icon(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => PetVaccini(userName: userName,userImage: userImage,)),
+                            );
+                          },
                           icon: Icon(Icons.pets),
                           label: Text(
                             'Pet-Vaccini',
@@ -104,7 +115,12 @@ class PetFSE extends StatelessWidget {
                       SizedBox(
                         width: 250,
                         child: TextButton.icon(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Appointments(tipe:'pet')),
+                            );
+                          },
                           icon: Icon(Icons.event),
                           label: Text(
                             'Pet-Appuntamenti',

@@ -15,7 +15,7 @@ class AccountScreen extends StatelessWidget {
               Navigator.of(context).pop();
             },
           ),
-          title: Text('ACCOUNT'),
+          title: Text('Account'),
           actions: <Widget>[
             Container(
               margin: EdgeInsets.only(right: 16.0),
@@ -61,7 +61,7 @@ class AccountScreen extends StatelessWidget {
             children: <Widget>[
               Center(
                 child: Text(
-                  'GIANLUCA',
+                  'Gianluca',
                   style: TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
@@ -70,7 +70,7 @@ class AccountScreen extends StatelessWidget {
               ),
               Center(
                 child: Text(
-                  'ROSSI',
+                  'Rossi',
                   style: TextStyle(
                     fontSize: 20.0,
                   ),
