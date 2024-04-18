@@ -1,4 +1,5 @@
 import 'package:care_crafter/screens/MapScreen.dart';
+import 'package:care_crafter/screens/farmaciDaRitirare.dart';
 import 'package:flutter/material.dart';
 import 'package:care_crafter/screens/FascicoloSanitario.dart';
 import 'package:care_crafter/screens/PetHomePage.dart';
@@ -135,7 +136,11 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
                   }),
                   SizedBox(width: 25),
                   _buildRoundedButton('Farmaci da ritirare', () {
-                    print('Medicines Button clicked');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => farmaciDaRitirare()),
+                    );
                   }),
                 ],
               ),
@@ -163,7 +168,6 @@ class _HomePageCareCrafterState extends State<HomePageCareCrafter> {
       );
     });
   }
-
 
   Widget _buildChatWithSpecialistButton() {
     return _buildSquareButton('Chatta con uno specialista',

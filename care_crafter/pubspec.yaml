@@ -21,6 +21,7 @@ version: 1.0.0+1
 environment:
   sdk: '>=3.3.0 <4.0.0'
 
+
 dependencies:
   flutter:
     sdk: flutter
@@ -33,6 +34,7 @@ dependencies:
   kommunicate_flutter: ^1.9.0
   google_maps_flutter: ^2.0.12
   geolocator: ^8.0.1
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -57,6 +59,12 @@ flutter:
     - assets/Immagini_CareCrafter/Fuffy.png
     - assets/Immagini_CareCrafter/utente.png
     - assets/Immagini_CareCrafter/Mowgly.png
+    - assets/Immagini_CareCrafter/tachipirina1000.png
+    - assets/Immagini_CareCrafter/brufen.png
+    - assets/Immagini_CareCrafter/aspirina.png
+    - assets/Immagini_CareCrafter/clamoxyl.png
+    - assets/Immagini_CareCrafter/losec.png
+    - assets/Immagini_CareCrafter/zocor.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
