@@ -1,9 +1,10 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:flutter/material.dart';
 import 'package:care_crafter/screens/PetHomePage.dart';
 import 'package:care_crafter/screens/appointments.dart';
 import 'package:care_crafter/screens/petVaccini.dart';
-import 'package:flutter/material.dart';
+import 'package:care_crafter/screens/specialista.dart';
 import 'package:care_crafter/widgets/custom_bottom_navigation_bar.dart';
 
 class PetFSE extends StatelessWidget {
@@ -67,42 +68,28 @@ class PetFSE extends StatelessWidget {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => PetVaccini(userName: userName,userImage: userImage,)),
+                              MaterialPageRoute(
+                                  builder: (context) => PetVaccini(
+                                        userName: userName,
+                                        userImage: userImage,
+                                      )),
                             );
                           },
-                          icon: Icon(Icons.pets),
+                          icon: Icon(Icons.pets, size: 50),
                           label: Text(
-                            'Pet-Vaccini',
+                            'Pet-Vaccini            ',
                             style: TextStyle(color: Colors.black),
                           ),
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Color(0xFFAED581)),
-                            foregroundColor: MaterialStateProperty.all(Colors.white),
-                            padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 16, horizontal: 32)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                                side: BorderSide(color: Color(0xFF2C5D39)),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 100),
-                      SizedBox(
-                        width: 250,
-                        child: TextButton.icon(
-                          onPressed: () {},
-                          icon: Icon(Icons.local_hospital),
-                          label: Text(
-                            'Pet-Veterinario',
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Color(0xFFAED581)),
-                            foregroundColor: MaterialStateProperty.all(Colors.white),
-                            padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 16, horizontal: 32)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            backgroundColor:
+                                MaterialStateProperty.all(Color(0xFFAED581)),
+                            foregroundColor:
+                                MaterialStateProperty.all(Colors.white),
+                            padding: MaterialStateProperty.all(
+                                EdgeInsets.symmetric(
+                                    vertical: 16, horizontal: 32)),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18.0),
                                 side: BorderSide(color: Color(0xFF2C5D39)),
@@ -118,19 +105,60 @@ class PetFSE extends StatelessWidget {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => Appointments(tipe:'pet')),
+                              MaterialPageRoute(
+                                  builder: (context) => Specialista()),
                             );
                           },
-                          icon: Icon(Icons.event),
+                          icon: Icon(Icons.local_hospital, size: 50),
+                          label: Text(
+                            'Pet-Veterinario    ',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Color(0xFFAED581)),
+                            foregroundColor:
+                                MaterialStateProperty.all(Colors.white),
+                            padding: MaterialStateProperty.all(
+                                EdgeInsets.symmetric(
+                                    vertical: 16, horizontal: 32)),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                side: BorderSide(color: Color(0xFF2C5D39)),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 100),
+                      SizedBox(
+                        width: 250,
+                        child: TextButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Appointments(tipe: 'pet')),
+                            );
+                          },
+                          icon: Icon(Icons.event, size: 50),
                           label: Text(
                             'Pet-Appuntamenti',
                             style: TextStyle(color: Colors.black),
                           ),
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Color(0xFFAED581)),
-                            foregroundColor: MaterialStateProperty.all(Colors.white),
-                            padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 16, horizontal: 32)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            backgroundColor:
+                                MaterialStateProperty.all(Color(0xFFAED581)),
+                            foregroundColor:
+                                MaterialStateProperty.all(Colors.white),
+                            padding: MaterialStateProperty.all(
+                                EdgeInsets.symmetric(
+                                    vertical: 16, horizontal: 32)),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18.0),
                                 side: BorderSide(color: Color(0xFF2C5D39)),
@@ -167,7 +195,8 @@ class PetFSE extends StatelessWidget {
       ),
     );
   }
-ImageProvider<Object> _getImageProvider(String imagePath) {
+
+  ImageProvider<Object> _getImageProvider(String imagePath) {
     if (imagePath.contains("assets")) {
       return AssetImage(imagePath);
     } else {
