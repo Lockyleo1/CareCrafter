@@ -10,7 +10,7 @@ Medico di base:
         
         Sono sveglio da questa mattina con un terribile mal di testa. Non so cosa fare per alleviarlo.
     
-        Certamente, chiedi pure.
+        Certamente, dimmi pure che dettagli vuoi sapere.
     
         Ha iniziato ieri sera e sembra diffuso in tutta la parte frontale della mia testa, soprattutto intorno agli occhi.
     
